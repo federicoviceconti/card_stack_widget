@@ -54,10 +54,10 @@ class _CardWidgetState extends State<CardWidget>
             onVerticalDragEnd: _handleVerticalEnd,
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  borderRadius: BorderRadius.all(Radius.circular(widget.model.radius)),
                   boxShadow: [
                     BoxShadow(
-                        blurRadius: 2, color: Colors.black.withOpacity(0.15))
+                        blurRadius: 2, color: widget.model.shadowColor)
                   ],
                   color: widget.model.backgroundColor),
               child: widget.model.child,

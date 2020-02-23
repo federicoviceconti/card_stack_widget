@@ -10,6 +10,6 @@ class CardModel {
     this.child,
     this.backgroundColor = Colors.white,
     this.shadowColor = Colors.black,
-    this.radius
+    this.radius = 0
   });
 }
