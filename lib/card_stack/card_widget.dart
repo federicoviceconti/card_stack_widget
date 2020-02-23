@@ -29,7 +29,7 @@ class _CardWidgetState extends State<CardWidget>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<Offset> _animation;
-  double startingAnimationValueY = 0;
+  double draggingAnimationY = 0;
 
   @override
   void initState() {
@@ -39,8 +39,6 @@ class _CardWidgetState extends State<CardWidget>
             begin: Offset(0, widget.positionTop),
             end: Offset(0, widget.positionTop))
         .animate(_animationController);
-
-    startingAnimationValueY = _animation.value.dy;
 
     super.initState();
   }
@@ -69,8 +67,10 @@ class _CardWidgetState extends State<CardWidget>
   }
 
   void _handleVerticalUpdate(DragUpdateDetails details) {
-    if (widget.draggable && isSwipeDirectionEnabled(details)) {
+    if (widget.draggable && isSwipeDirectionEnabled(details.delta.dy)) {
       setState(() {
+        draggingAnimationY = _animation.value.dy;
+
         _animation = Tween(
                 begin: Offset(0, _animation.value.dy),
                 end: Offset(0, _animation.value.dy + details.delta.dy))
@@ -101,17 +101,15 @@ class _CardWidgetState extends State<CardWidget>
 
   bool shouldDismissCard(double endAnimationY) {
     if(widget.dismissOrientation == SwipeOrientation.up) {
-      return endAnimationY < startingAnimationValueY;
+      return endAnimationY < draggingAnimationY;
     } else if(widget.dismissOrientation == SwipeOrientation.down) {
-      return endAnimationY > startingAnimationValueY;
+      return endAnimationY > draggingAnimationY;
     }
 
     return true;
   }
 
-  bool isSwipeDirectionEnabled(DragUpdateDetails details) {
-    var delta = details.delta.dy;
-
+  bool isSwipeDirectionEnabled(double delta) {
     if(widget.swipeOrientation == SwipeOrientation.up) {
       return delta < 0;
     } else if(widget.swipeOrientation == SwipeOrientation.down) {
