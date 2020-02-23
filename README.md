@@ -6,11 +6,12 @@ A vertical dismissable stack of cards for a Flutter application. The widget prov
 | Property | Type |
 | ------ | ------ |
 | cardList | List<CardModel> |
-| cardDismissOrientation | DismissOrientation (enum) |
+| cardDismissOrientation | SwipeOrientation (enum) |
 | reverseOrder | bool |
 | alignment | Alignment |
 | scaleFactor | double |
 | positionFactor | double |
+| swipeOrientation | SwipeOrientation (enum) |
 
 **CardModel**
 | Property | Type |

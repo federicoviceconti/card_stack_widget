@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_card/card_stack/model/dismiss_horientation.dart';
-
+import 'package:flutter_card/card_stack/model/swipe_horientation.dart';
 import 'card_widget.dart';
 import 'model/card_model.dart';
 
@@ -11,7 +10,8 @@ class CardStackWidget extends StatefulWidget {
   final double positionFactor;
   final Alignment alignment;
   final bool reverseOrder;
-  final DismissOrientation cardDismissOrientation;
+  final SwipeOrientation cardDismissOrientation;
+  final SwipeOrientation swipeOrientation;
 
   CardStackWidget({
     this.cardList,
@@ -19,7 +19,8 @@ class CardStackWidget extends StatefulWidget {
     this.positionFactor,
     this.alignment,
     this.reverseOrder,
-    this.cardDismissOrientation
+    this.cardDismissOrientation,
+    this.swipeOrientation
   });
 
   @override
@@ -46,7 +47,8 @@ class _CardStackWidgetState extends State<CardStackWidget> {
       CardModel model,
       bool draggable}) {
     return CardWidget(
-      dismissOrientation: widget?.cardDismissOrientation ?? DismissOrientation.both,
+      swipeOrientation: widget?.swipeOrientation ?? SwipeOrientation.both,
+      dismissOrientation: widget?.cardDismissOrientation ?? SwipeOrientation.both,
       positionTop: calculatedTop,
       scale: calculatedScale,
       model: model,

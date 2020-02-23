@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card/card_stack/model/card_model.dart';
-import 'package:flutter_card/card_stack/model/dismiss_horientation.dart';
+import 'package:flutter_card/card_stack/model/swipe_horientation.dart';
 
 class CardWidget extends StatefulWidget {
   final CardModel model;
@@ -8,7 +8,8 @@ class CardWidget extends StatefulWidget {
   final double scale;
   final bool draggable;
   final Function() onCardDragEnd;
-  final DismissOrientation dismissOrientation;
+  final SwipeOrientation dismissOrientation;
+  final SwipeOrientation swipeOrientation;
 
   CardWidget({
     this.positionTop,
@@ -16,7 +17,8 @@ class CardWidget extends StatefulWidget {
     this.model,
     this.draggable,
     this.onCardDragEnd,
-    this.dismissOrientation
+    this.dismissOrientation,
+    this.swipeOrientation
   });
 
   @override
@@ -67,7 +69,7 @@ class _CardWidgetState extends State<CardWidget>
   }
 
   void _handleVerticalUpdate(DragUpdateDetails details) {
-    if (widget.draggable) {
+    if (widget.draggable && isSwipeDirectionEnabled(details)) {
       setState(() {
         _animation = Tween(
                 begin: Offset(0, _animation.value.dy),
@@ -98,10 +100,22 @@ class _CardWidgetState extends State<CardWidget>
   }
 
   bool shouldDismissCard(double endAnimationY) {
-    if(widget.dismissOrientation == DismissOrientation.up) {
+    if(widget.dismissOrientation == SwipeOrientation.up) {
       return endAnimationY < startingAnimationValueY;
-    } else if(widget.dismissOrientation == DismissOrientation.down) {
+    } else if(widget.dismissOrientation == SwipeOrientation.down) {
       return endAnimationY > startingAnimationValueY;
+    }
+
+    return true;
+  }
+
+  bool isSwipeDirectionEnabled(DragUpdateDetails details) {
+    var delta = details.delta.dy;
+
+    if(widget.swipeOrientation == SwipeOrientation.up) {
+      return delta < 0;
+    } else if(widget.swipeOrientation == SwipeOrientation.down) {
+      return delta > 0;
     }
 
     return true;

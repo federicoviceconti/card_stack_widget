@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_card/card_stack/card_stack_widget.dart';
 import 'package:flutter_card/card_stack/model/card_model.dart';
 
-import '../card_stack/model/dismiss_horientation.dart';
+import '../card_stack/model/swipe_horientation.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,13 +38,77 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var mockList = _buildMockList(size: 4, context: context);
 
-    return CardStackWidget(
-        positionFactor: 0.2,
-        scaleFactor: 0.3,
-        alignment: Alignment.center,
-        reverseOrder: false,
-        cardList: mockList,
-        cardDismissOrientation: DismissOrientation.down);
+    return SafeArea(
+      child: Column(
+        children: <Widget>[
+          Flexible(
+            flex: 1,
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              alignment: Alignment.centerLeft,
+              child: Icon(Icons.arrow_back_ios),
+            ),
+          ),
+          Flexible(
+            flex: 2,
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
+                        child: Icon(Icons.trip_origin),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0, bottom: 8.0),
+                        child: Icon(Icons.trip_origin),
+                      ),
+                    ],
+                  ),
+                ),
+                Flexible(
+                  flex: 9,
+                  child: Column(
+                    children: <Widget>[
+                      Flexible(
+                        flex: 1,
+                        child: Container(
+                            padding: const EdgeInsets.all(16),
+                            child: TextField(
+                              decoration: InputDecoration(hintText: "From..."),
+                            )),
+                      ),
+                      Flexible(
+                        flex: 1,
+                        child: Container(
+                            padding: const EdgeInsets.all(16),
+                            child: TextField(
+                              decoration: InputDecoration(hintText: "To..."),
+                            )),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Flexible(
+            flex: 9,
+            child: CardStackWidget(
+              swipeOrientation: SwipeOrientation.down,
+              positionFactor: 0.2,
+              scaleFactor: 0.3,
+              alignment: Alignment.center,
+              reverseOrder: false,
+              cardList: mockList,
+              cardDismissOrientation: SwipeOrientation.down),
+          )
+        ],
+      ),
+    );
   }
 
   _buildMockList({int size, BuildContext context}) {
