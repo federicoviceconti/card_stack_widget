@@ -5,7 +5,7 @@ A vertical dismissable stack of cards for a Flutter application. The widget prov
 **CardStackWidget**
 | Property | Type |
 | ------ | ------ |
-| cardList | List<CardModel> |
+| cardList | List of CardModel |
 | cardDismissOrientation | SwipeOrientation (enum) |
 | reverseOrder | bool |
 | alignment | Alignment |
@@ -16,7 +16,6 @@ A vertical dismissable stack of cards for a Flutter application. The widget prov
 **CardModel**
 | Property | Type |
 | ------ | ------ |
-| cardList | List<CardModel> |
 | shadowColor | Color |
 | backgroundColor | Color |
 | radius | double |
