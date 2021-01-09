@@ -1,7 +1,8 @@
 # CardStackWidget
 A vertical dismissable stack of cards for a Flutter application. The widget provided is **_CardStackWidget_**. You can customize the position and scale factor of the card list with the property *positionFactor* and *scaleFactor*.
 
-#### Supported properties
+### Supported properties
+
 **CardStackWidget**
 | Property | Type |
 | ------ | ------ |
@@ -20,6 +21,8 @@ A vertical dismissable stack of cards for a Flutter application. The widget prov
 | backgroundColor | Color |
 | radius | double |
 | child | Widget |
+
+Example:
 
 <img src="https://github.com/federicoviceconti/CardStackWidget/blob/master/screenshots/example.png" alt="example card widget" width="200">
 
