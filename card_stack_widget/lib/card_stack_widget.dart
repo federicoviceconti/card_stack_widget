@@ -1,8 +1,8 @@
+import 'package:card_stack_widget/card_widget.dart';
+import 'package:card_stack_widget/model/card_model.dart';
+import 'package:card_stack_widget/model/swipe_horientation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_card/card_stack/model/swipe_horientation.dart';
-import 'card_widget.dart';
-import 'model/card_model.dart';
 
 class CardStackWidget extends StatefulWidget {
   final List<CardModel> cardList;
