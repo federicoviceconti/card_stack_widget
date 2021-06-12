@@ -25,15 +25,16 @@ class HomeWidget extends StatelessWidget {
   }
 
   CardStackWidget _buildCardStackWidget(BuildContext context) {
-    var mockList = _buildMockList(size: 4, context: context);
+    var mockList = _buildMockList(context, size: 4);
     return CardStackWidget(
-        swipeOrientation: SwipeOrientation.up,
-        cardDismissOrientation: SwipeOrientation.up,
-        positionFactor: 0.3,
-        scaleFactor: 0.2,
-        alignment: Alignment.center,
-        reverseOrder: false,
-        cardList: mockList);
+      swipeOrientation: SwipeOrientation.both,
+      cardDismissOrientation: SwipeOrientation.up,
+      positionFactor: 0.3,
+      scaleFactor: 0.2,
+      alignment: Alignment.center,
+      reverseOrder: false,
+      cardList: mockList,
+    );
   }
 
   Row _buildFromTo() {
@@ -96,10 +97,10 @@ class HomeWidget extends StatelessWidget {
     );
   }
 
-  _buildMockList({int size, BuildContext context}) {
+  _buildMockList(BuildContext context, {int size = 0}) {
     final double containerWidth = MediaQuery.of(context).size.width - 16;
 
-    var list = List<CardModel>();
+    var list = <CardModel>[];
     for (int i = 0; i < size; i++) {
       var color = Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
           .withOpacity(1.0);
@@ -110,7 +111,7 @@ class HomeWidget extends StatelessWidget {
           radius: 8,
           shadowColor: Colors.black.withOpacity(0.2),
           child: Container(
-            height: 300,
+            height: 310,
             width: containerWidth,
             child: Column(
               children: [
