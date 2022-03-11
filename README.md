@@ -27,4 +27,4 @@ property *positionFactor* and *scaleFactor*.
 
 Example:
 
-<img src="https://github.com/federicoviceconti/CardStackWidget/blob/master/screenshots/example.png" alt="example card widget" width="200">
+<img src="https://github.com/federicoviceconti/card_stack_widget/blob/master/example/screenshots/example.png" alt="example card widget" width="200">
