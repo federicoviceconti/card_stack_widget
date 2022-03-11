@@ -1,10 +1,9 @@
-
-
-import 'package:card_stack_widget/card_widget.dart';
-import 'package:card_stack_widget/model/card_model.dart';
-import 'package:card_stack_widget/model/swipe_horientation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../model/card_model.dart';
+import '../model/swipe_orientation.dart';
+import '../widget/card_widget.dart';
 
 class CardStackWidget extends StatefulWidget {
   final List<CardModel>? cardList;
@@ -15,15 +14,14 @@ class CardStackWidget extends StatefulWidget {
   final SwipeOrientation? cardDismissOrientation;
   final SwipeOrientation? swipeOrientation;
 
-  CardStackWidget({
-    this.cardList,
-    this.scaleFactor,
-    this.positionFactor,
-    this.alignment,
-    this.reverseOrder,
-    this.cardDismissOrientation,
-    this.swipeOrientation
-  });
+  CardStackWidget(
+      {this.cardList,
+      this.scaleFactor,
+      this.positionFactor,
+      this.alignment,
+      this.reverseOrder,
+      this.cardDismissOrientation,
+      this.swipeOrientation});
 
   @override
   _CardStackWidgetState createState() => _CardStackWidgetState();
@@ -39,18 +37,22 @@ class _CardStackWidgetState extends State<CardStackWidget> {
     var cards = _buildCards();
     return Container(
       child: Stack(
-          alignment: widget.alignment ?? Alignment.center, children: cards),
+        alignment: widget.alignment ?? Alignment.center,
+        children: cards,
+      ),
     );
   }
 
-  _buildCard(
-      {double? calculatedTop,
-      double? calculatedScale,
-      CardModel? model,
-      bool? draggable}) {
+  _buildCard({
+    double? calculatedTop,
+    double? calculatedScale,
+    CardModel? model,
+    bool? draggable,
+  }) {
     return CardWidget(
       swipeOrientation: widget.swipeOrientation ?? SwipeOrientation.both,
-      dismissOrientation: widget.cardDismissOrientation ?? SwipeOrientation.both,
+      dismissOrientation:
+          widget.cardDismissOrientation ?? SwipeOrientation.both,
       positionTop: calculatedTop,
       scale: calculatedScale,
       model: model,

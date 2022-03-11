@@ -1,5 +1,5 @@
-
-
 enum SwipeOrientation {
-  up, down, both
+  up,
+  down,
+  both,
 }

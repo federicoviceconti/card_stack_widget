@@ -1,7 +1,6 @@
 import 'dart:math';
+
 import 'package:card_stack_widget/card_stack_widget.dart';
-import 'package:card_stack_widget/model/card_model.dart';
-import 'package:card_stack_widget/model/swipe_horientation.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatelessWidget {
@@ -18,14 +17,18 @@ class HomeWidget extends StatelessWidget {
             flex: 3,
             child: _buildFromTo(),
           ),
-          Flexible(flex: 10, child: _buildCardStackWidget(context))
+          Flexible(
+            flex: 10,
+            child: _buildCardStackWidget(context),
+          )
         ],
       ),
     );
   }
 
   CardStackWidget _buildCardStackWidget(BuildContext context) {
-    var mockList = _buildMockList(context, size: 4);
+    final mockList = _buildMockList(context, size: 4);
+
     return CardStackWidget(
       swipeOrientation: SwipeOrientation.both,
       cardDismissOrientation: SwipeOrientation.up,
@@ -131,7 +134,8 @@ class HomeWidget extends StatelessWidget {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text(
-                                "Apple Palo Alto, 340 University Ave, Palo Alto, CA 94301, Stati Uniti"),
+                              "Apple Palo Alto, 340 University Ave, Palo Alto, CA 94301, Stati Uniti",
+                            ),
                           ],
                         ),
                       ),
@@ -146,7 +150,8 @@ class HomeWidget extends StatelessWidget {
                             Text("To",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
-                                "Googleplex, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, Stati Uniti"),
+                              "Googleplex, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, Stati Uniti",
+                            ),
                           ],
                         ),
                       ),

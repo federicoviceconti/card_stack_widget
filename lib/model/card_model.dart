@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class CardModel {
@@ -12,6 +10,6 @@ class CardModel {
     this.child,
     this.backgroundColor = Colors.white,
     this.shadowColor = Colors.black,
-    this.radius = 0
+    this.radius = 0,
   });
 }

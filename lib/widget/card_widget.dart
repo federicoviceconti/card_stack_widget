@@ -1,7 +1,5 @@
-
-
 import 'package:card_stack_widget/model/card_model.dart';
-import 'package:card_stack_widget/model/swipe_horientation.dart';
+import 'package:card_stack_widget/model/swipe_orientation.dart';
 import 'package:flutter/material.dart';
 
 class CardWidget extends StatefulWidget {
@@ -20,7 +18,7 @@ class CardWidget extends StatefulWidget {
     this.draggable,
     this.onCardDragEnd,
     this.dismissOrientation,
-    this.swipeOrientation
+    this.swipeOrientation,
   });
 
   @override
@@ -56,12 +54,13 @@ class _CardWidgetState extends State<CardWidget>
             onVerticalDragEnd: _handleVerticalEnd,
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(widget.model!.radius)),
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 2, color: widget.model!.shadowColor)
-                  ],
-                  color: widget.model!.backgroundColor),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(widget.model!.radius)),
+                boxShadow: [
+                  BoxShadow(blurRadius: 2, color: widget.model!.shadowColor)
+                ],
+                color: widget.model!.backgroundColor,
+              ),
               child: widget.model!.child,
             ),
           ),
@@ -69,14 +68,16 @@ class _CardWidgetState extends State<CardWidget>
   }
 
   void _handleVerticalUpdate(DragUpdateDetails details) {
-    if (widget.draggable! && isSwipeDirectionEnabled(details.delta.dy)) {
+    if (widget.draggable! && _isSwipeDirectionEnabled(details.delta.dy)) {
       setState(() {
         draggingAnimationY = _animation.value.dy;
 
         _animation = Tween(
-                begin: Offset(0, _animation.value.dy),
-                end: Offset(0, _animation.value.dy + details.delta.dy))
-            .animate(_animationController);
+            begin: Offset(0, _animation.value.dy),
+            end: Offset(
+              0,
+              _animation.value.dy + details.delta.dy,
+            )).animate(_animationController);
       });
 
       _animationController.forward();
@@ -88,33 +89,37 @@ class _CardWidgetState extends State<CardWidget>
 
     setState(() {
       _animation = Tween(
-              begin: Offset(0, _animation.value.dy),
-              end: Offset(0, widget.positionTop!))
-          .animate(CurvedAnimation(
-              parent: _animationController, curve: Curves.easeIn));
+          begin: Offset(0, _animation.value.dy),
+          end: Offset(
+            0,
+            widget.positionTop!,
+          )).animate(CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeIn,
+      ));
     });
 
     _animationController.forward();
 
-    if(shouldDismissCard(endAnimationY)) {
+    if (_shouldDismissCard(endAnimationY)) {
       widget.onCardDragEnd!();
     }
   }
 
-  bool shouldDismissCard(double endAnimationY) {
-    if(widget.dismissOrientation == SwipeOrientation.up) {
+  bool _shouldDismissCard(double endAnimationY) {
+    if (widget.dismissOrientation == SwipeOrientation.up) {
       return endAnimationY < draggingAnimationY;
-    } else if(widget.dismissOrientation == SwipeOrientation.down) {
+    } else if (widget.dismissOrientation == SwipeOrientation.down) {
       return endAnimationY > draggingAnimationY;
     }
 
     return true;
   }
 
-  bool isSwipeDirectionEnabled(double delta) {
-    if(widget.swipeOrientation == SwipeOrientation.up) {
+  bool _isSwipeDirectionEnabled(double delta) {
+    if (widget.swipeOrientation == SwipeOrientation.up) {
       return delta < 0;
-    } else if(widget.swipeOrientation == SwipeOrientation.down) {
+    } else if (widget.swipeOrientation == SwipeOrientation.down) {
       return delta > 0;
     }
 
