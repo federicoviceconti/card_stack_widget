@@ -1,6 +1,7 @@
-name: flutter_card
-description: A new Flutter application.
+name: example
+description: A vertical dismissible and customizable stack of cards
 version: 1.0.0+1
+publish_to: none
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -11,11 +12,13 @@ dependencies:
 
   cupertino_icons: ^0.1.2
   card_stack_widget:
-    path: ../../CardStackWidget
+    path: ../../card_stack_widget
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_lints: ^1.0.0
 
 flutter:
   uses-material-design: true

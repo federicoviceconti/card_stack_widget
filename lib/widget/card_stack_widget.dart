@@ -6,22 +6,37 @@ import '../model/swipe_orientation.dart';
 import '../widget/card_widget.dart';
 
 class CardStackWidget extends StatefulWidget {
+  /// List of card shown
   final List<CardModel>? cardList;
+
+  /// Scale factor for items into the list
   final double? scaleFactor;
+
+  /// Distance factor between items
   final double? positionFactor;
+
+  /// Cards alignment
   final Alignment? alignment;
+
+  /// Should show list in reverse order
   final bool? reverseOrder;
+
+  /// Direction where the card could be dismissed and removed from the list
   final SwipeOrientation? cardDismissOrientation;
+
+  /// Drag direction enabled
   final SwipeOrientation? swipeOrientation;
 
-  CardStackWidget(
-      {this.cardList,
-      this.scaleFactor,
-      this.positionFactor,
-      this.alignment,
-      this.reverseOrder,
-      this.cardDismissOrientation,
-      this.swipeOrientation});
+  const CardStackWidget({
+    Key? key,
+    this.cardList,
+    this.scaleFactor,
+    this.positionFactor,
+    this.alignment,
+    this.reverseOrder,
+    this.cardDismissOrientation,
+    this.swipeOrientation,
+  }) : super(key: key);
 
   @override
   _CardStackWidgetState createState() => _CardStackWidgetState();
@@ -35,11 +50,9 @@ class _CardStackWidgetState extends State<CardStackWidget> {
 
   Widget _buildCardStack() {
     var cards = _buildCards();
-    return Container(
-      child: Stack(
-        alignment: widget.alignment ?? Alignment.center,
-        children: cards,
-      ),
+    return Stack(
+      alignment: widget.alignment ?? Alignment.center,
+      children: cards,
     );
   }
 
@@ -50,10 +63,10 @@ class _CardStackWidgetState extends State<CardStackWidget> {
     bool? draggable,
   }) {
     return CardWidget(
+      positionTop: calculatedTop,
       swipeOrientation: widget.swipeOrientation ?? SwipeOrientation.both,
       dismissOrientation:
           widget.cardDismissOrientation ?? SwipeOrientation.both,
-      positionTop: calculatedTop,
       scale: calculatedScale,
       model: model,
       draggable: draggable,
@@ -84,10 +97,11 @@ class _CardStackWidgetState extends State<CardStackWidget> {
       var scaleCalc = 1 - indexPercentage;
 
       return _buildCard(
-          calculatedTop: positionCalc,
-          calculatedScale: scaleCalc,
-          model: model,
-          draggable: index == lengthCardList - 1);
+        calculatedTop: positionCalc,
+        calculatedScale: scaleCalc,
+        model: model,
+        draggable: index == lengthCardList - 1,
+      );
     }).toList(growable: false);
 
     return cardWidgetList;

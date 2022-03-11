@@ -3,15 +3,28 @@ import 'package:card_stack_widget/model/swipe_orientation.dart';
 import 'package:flutter/material.dart';
 
 class CardWidget extends StatefulWidget {
+  /// Current card model shown
   final CardModel? model;
-  final double? positionTop;
+
   final double? scale;
+
+  /// Enable the dragging on the card
   final bool? draggable;
+
+  /// Function invoked at the end of the drag
   final Function()? onCardDragEnd;
+
+  /// Direction where the card could be dismissed and removed from the list
   final SwipeOrientation? dismissOrientation;
+
+  /// Drag direction enabled
   final SwipeOrientation? swipeOrientation;
 
-  CardWidget({
+  /// Top from the parent
+  final double? positionTop;
+
+  const CardWidget({
+    Key? key,
     this.positionTop,
     this.scale,
     this.model,
@@ -19,7 +32,7 @@ class CardWidget extends StatefulWidget {
     this.onCardDragEnd,
     this.dismissOrientation,
     this.swipeOrientation,
-  });
+  }) : super(key: key);
 
   @override
   _CardWidgetState createState() => _CardWidgetState();
@@ -33,12 +46,14 @@ class _CardWidgetState extends State<CardWidget>
 
   @override
   void initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
     _animation = Tween(
-            begin: Offset(0, widget.positionTop!),
-            end: Offset(0, widget.positionTop!))
-        .animate(_animationController);
+      begin: Offset(0, widget.positionTop!),
+      end: Offset(0, widget.positionTop!),
+    ).animate(_animationController);
 
     super.initState();
   }
