@@ -141,7 +141,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                     },
                     hint: Text(
                       _cardDismissOrientationValue?.toString().split('.')[1] ??
-                          'Card dismiss orientation',
+                          '',
                     ),
                   ),
                 ],
@@ -169,8 +169,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                       });
                     },
                     hint: Text(
-                      _swipeOrientation?.toString().split('.')[1] ??
-                          'Swipe orientation',
+                      _swipeOrientation?.toString().split('.')[1] ?? '',
                     ),
                   ),
                 ],

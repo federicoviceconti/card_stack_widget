@@ -72,8 +72,7 @@ class _CardStackWidgetState extends State<CardStackWidget> {
       var model = entry.value;
 
       var positionCalc = widget.positionFactor! * index * 10;
-
-      var scalePercentage = (lengthCardList * widget.scaleFactor! / 100);
+      var scalePercentage = lengthCardList * widget.scaleFactor! / 100;
       var indexPercentage = scalePercentage * (lengthCardList - index - 1);
       var scaleCalc = 1 - indexPercentage;
 

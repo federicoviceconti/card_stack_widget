@@ -55,7 +55,7 @@ class _CardWidgetState extends State<CardWidget>
 
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 0),
     );
     _animation = Tween(
       begin: Offset(0, widget.positionTop),
@@ -130,9 +130,9 @@ class _CardWidgetState extends State<CardWidget>
           parent: _animationController,
           curve: Curves.easeIn,
         ));
-      });
 
-      _animationController.forward();
+        _draggingAnimationY = widget.positionTop;
+      });
 
       if (_shouldDismissCard(endAnimationY)) {
         widget.onCardDragEnd!();
@@ -193,5 +193,11 @@ class _CardWidgetState extends State<CardWidget>
     } else {
       return opacity;
     }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }
