@@ -13,9 +13,13 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
 
   bool _reverseOrder = false;
 
-  double _positionFactorValue = 0.2;
+  double _positionFactorValue = 0.1;
 
-  double _scaleFactorValue = 0.2;
+  double _scaleFactorValue = 0.1;
+
+  double _radius = 16.0;
+
+  final _radiusController = TextEditingController();
 
   final _positionFactorController = TextEditingController();
 
@@ -31,6 +35,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
 
     _positionFactorController.text = _positionFactorValue.toString();
     _scaleFactorController.text = _scaleFactorValue.toString();
+    _radiusController.text = _radius.toString();
   }
 
   @override
@@ -44,6 +49,20 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              TextField(
+                keyboardType: TextInputType.number,
+                controller: _radiusController,
+                onChanged: (value) {
+                  final convertedValue = double.tryParse(value);
+                  if (convertedValue != null) {
+                    setState(() {
+                      _radius = convertedValue;
+                    });
+                  }
+                },
+                decoration: const InputDecoration(labelText: 'Radius card'),
+              ),
+              const SizedBox(height: 16),
               TextField(
                 keyboardType: TextInputType.number,
                 controller: _positionFactorController,
@@ -184,6 +203,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
 
     return [
       CardModel(
+        radius: _radius,
         backgroundColor: Colors.blue,
         child: SizedBox(
           height: height,
@@ -192,6 +212,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
         ),
       ),
       CardModel(
+        radius: _radius,
         backgroundColor: Colors.grey,
         child: SizedBox(
           height: height,
@@ -200,6 +221,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
         ),
       ),
       CardModel(
+        radius: _radius,
         backgroundColor: Colors.yellow,
         child: SizedBox(
           height: height,
@@ -208,6 +230,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
         ),
       ),
       CardModel(
+        radius: _radius,
         backgroundColor: Colors.green,
         child: SizedBox(
           height: height,
@@ -216,6 +239,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
         ),
       ),
       CardModel(
+        radius: _radius,
         backgroundColor: Colors.red,
         child: SizedBox(
           height: height,
