@@ -13,9 +13,9 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
 
   bool _reverseOrder = false;
 
-  double _positionFactorValue = 0.1;
+  double _positionFactorValue = 1.5;
 
-  double _scaleFactorValue = 0.1;
+  double _scaleFactorValue = 1;
 
   double _radius = 16.0;
 
