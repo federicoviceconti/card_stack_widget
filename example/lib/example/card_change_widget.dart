@@ -47,7 +47,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
       body: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
           child: Column(
             children: [
               TextField(
