@@ -117,24 +117,26 @@ class _CardWidgetState extends State<CardWidget>
   void _handleVerticalEnd(DragEndDetails details) {
     var endAnimationY = _animation.value.dy;
 
-    setState(() {
-      _currentOpacity = 1.0;
+    if(endAnimationY != widget.positionTop) {
+      setState(() {
+        _currentOpacity = 1.0;
 
-      _animation = Tween(
-          begin: Offset(0, _animation.value.dy),
-          end: Offset(
-            0,
-            widget.positionTop,
-          )).animate(CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeIn,
-      ));
-    });
+        _animation = Tween(
+            begin: Offset(0, _animation.value.dy),
+            end: Offset(
+              0,
+              widget.positionTop,
+            )).animate(CurvedAnimation(
+          parent: _animationController,
+          curve: Curves.easeIn,
+        ));
+      });
 
-    _animationController.forward();
+      _animationController.forward();
 
-    if (_shouldDismissCard(endAnimationY)) {
-      widget.onCardDragEnd!();
+      if (_shouldDismissCard(endAnimationY)) {
+        widget.onCardDragEnd!();
+      }
     }
   }
 

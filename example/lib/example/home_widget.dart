@@ -8,22 +8,23 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          Flexible(
-            flex: 1,
-            child: _buildTopBar(),
-          ),
-          Flexible(
-            flex: 3,
-            child: _buildFromTo(),
-          ),
-          Flexible(
-            flex: 10,
-            child: _buildCardStackWidget(context),
-          )
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Real page example'),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Flexible(
+              flex: 3,
+              child: _buildFromTo(),
+            ),
+            Flexible(
+              flex: 10,
+              child: _buildCardStackWidget(context),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -92,14 +93,6 @@ class HomeWidget extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-
-  Container _buildTopBar() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      alignment: Alignment.centerLeft,
-      child: const Icon(Icons.arrow_back_ios),
     );
   }
 

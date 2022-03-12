@@ -7,7 +7,7 @@ import '../widget/card_widget.dart';
 
 class CardStackWidget extends StatefulWidget {
   /// List of card shown
-  final List<CardModel>? cardList;
+  final List<CardModel> cardList;
 
   /// Scale factor for items into the list
   final double? scaleFactor;
@@ -19,7 +19,7 @@ class CardStackWidget extends StatefulWidget {
   final Alignment? alignment;
 
   /// Should show list in reverse order
-  final bool? reverseOrder;
+  final bool reverseOrder;
 
   /// Direction where the card could be dismissed and removed from the list
   final SwipeOrientation? cardDismissOrientation;
@@ -32,11 +32,11 @@ class CardStackWidget extends StatefulWidget {
 
   const CardStackWidget({
     Key? key,
-    this.cardList,
+    required this.cardList,
     this.scaleFactor,
     this.positionFactor,
     this.alignment,
-    this.reverseOrder,
+    this.reverseOrder = false,
     this.cardDismissOrientation,
     this.swipeOrientation,
     this.opacityChangeOnDrag = false
@@ -60,36 +60,12 @@ class _CardStackWidgetState extends State<CardStackWidget> {
     );
   }
 
-  Widget _buildCard({
-    required double calculatedTop,
-    double? calculatedScale,
-    CardModel? model,
-    bool? draggable,
-  }) {
-    return CardWidget(
-      opacityChangeOnDrag: widget.opacityChangeOnDrag,
-      positionTop: calculatedTop,
-      swipeOrientation: widget.swipeOrientation ?? SwipeOrientation.both,
-      dismissOrientation:
-          widget.cardDismissOrientation ?? SwipeOrientation.both,
-      scale: calculatedScale,
-      model: model,
-      draggable: draggable,
-      onCardDragEnd: () {
-        var model = widget.cardList!.removeAt(widget.cardList!.length - 1);
-        setState(() {
-          widget.cardList!.insert(0, model);
-        });
-      },
-    );
-  }
-
   List<Widget> _buildCards() {
-    var lengthCardList = widget.cardList!.length;
+    var lengthCardList = widget.cardList.length;
 
-    var cardListOrdered = !widget.reverseOrder!
-        ? widget.cardList!.reversed.toList(growable: false)
-        : widget.cardList!;
+    var cardListOrdered = !widget.reverseOrder
+        ? widget.cardList.reversed.toList(growable: false)
+        : widget.cardList;
 
     var cardWidgetList = cardListOrdered.asMap().entries.map<Widget>((entry) {
       var index = entry.key;
@@ -110,5 +86,29 @@ class _CardStackWidgetState extends State<CardStackWidget> {
     }).toList(growable: false);
 
     return cardWidgetList;
+  }
+
+  Widget _buildCard({
+    required double calculatedTop,
+    double? calculatedScale,
+    CardModel? model,
+    bool? draggable,
+  }) {
+    return CardWidget(
+      opacityChangeOnDrag: widget.opacityChangeOnDrag,
+      positionTop: calculatedTop,
+      swipeOrientation: widget.swipeOrientation ?? SwipeOrientation.both,
+      dismissOrientation:
+          widget.cardDismissOrientation ?? SwipeOrientation.both,
+      scale: calculatedScale,
+      model: model,
+      draggable: draggable,
+      onCardDragEnd: () {
+        var model = widget.cardList.removeAt(widget.cardList.length - 1);
+        setState(() {
+          widget.cardList.insert(0, model);
+        });
+      },
+    );
   }
 }

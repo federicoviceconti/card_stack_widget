@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'home_widget.dart';
+import 'example_widget.dart';
 
 void main() => runApp(const MyApp());
 
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const Scaffold(
         resizeToAvoidBottomInset: false,
-        body: HomeWidget(),
+        body: ExampleWidget(),
       ),
     );
   }
