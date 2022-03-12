@@ -120,6 +120,13 @@ class HomeWidget extends StatelessWidget {
             width: containerWidth,
             child: Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "$i",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -163,7 +170,7 @@ class HomeWidget extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Image.asset("assets/directions.png"),
                 )
               ],

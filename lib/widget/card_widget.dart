@@ -23,6 +23,9 @@ class CardWidget extends StatefulWidget {
   /// Top from the parent
   final double? positionTop;
 
+  /// Change card opacity on drag (by default is disabled)
+  final bool opacityChangeOnDrag;
+
   const CardWidget({
     Key? key,
     this.positionTop,
@@ -32,6 +35,7 @@ class CardWidget extends StatefulWidget {
     this.onCardDragEnd,
     this.dismissOrientation,
     this.swipeOrientation,
+    this.opacityChangeOnDrag = false
   }) : super(key: key);
 
   @override
@@ -42,7 +46,8 @@ class _CardWidgetState extends State<CardWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Offset> _animation;
-  double draggingAnimationY = 0;
+  double _draggingAnimationY = 0;
+  double _currentOpacity = 1.0;
 
   @override
   void initState() {
@@ -62,30 +67,37 @@ class _CardWidgetState extends State<CardWidget>
   Widget build(BuildContext context) {
     return Positioned(
         top: widget.positionTop! + _animation.value.dy,
-        child: Transform.scale(
-          scale: widget.scale!,
-          child: GestureDetector(
-            onVerticalDragUpdate: _handleVerticalUpdate,
-            onVerticalDragEnd: _handleVerticalEnd,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(widget.model!.radius)),
-                boxShadow: [
-                  BoxShadow(blurRadius: 2, color: widget.model!.shadowColor)
-                ],
-                color: widget.model!.backgroundColor,
+        child: Opacity(
+          opacity: _currentOpacity,
+          child: Transform.scale(
+            scale: widget.scale!,
+            child: GestureDetector(
+              onVerticalDragUpdate: _handleVerticalUpdate,
+              onVerticalDragEnd: _handleVerticalEnd,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(widget.model!.radius)),
+                  boxShadow: [
+                    BoxShadow(blurRadius: 2, color: widget.model!.shadowColor)
+                  ],
+                  color: widget.model!.backgroundColor,
+                ),
+                child: widget.model!.child,
               ),
-              child: widget.model!.child,
             ),
           ),
         ));
   }
 
+  /// Handle the update on drag for the current card visible only if the
+  /// [CardWidget.draggable] property is set to `true`
   void _handleVerticalUpdate(DragUpdateDetails details) {
     if (widget.draggable! && _isSwipeDirectionEnabled(details.delta.dy)) {
       setState(() {
-        draggingAnimationY = _animation.value.dy;
+        _currentOpacity = _calculateOpacity();
+
+        _draggingAnimationY = _animation.value.dy;
 
         _animation = Tween(
             begin: Offset(0, _animation.value.dy),
@@ -99,10 +111,13 @@ class _CardWidgetState extends State<CardWidget>
     }
   }
 
+  /// Handle the drag at the end
   void _handleVerticalEnd(DragEndDetails details) {
     var endAnimationY = _animation.value.dy;
 
     setState(() {
+      _currentOpacity = 1.0;
+
       _animation = Tween(
           begin: Offset(0, _animation.value.dy),
           end: Offset(
@@ -121,16 +136,20 @@ class _CardWidgetState extends State<CardWidget>
     }
   }
 
+  /// Check on the current card, if it is dismissible or not for the direction
+  /// using the [CardWidget.dismissOrientation] property
   bool _shouldDismissCard(double endAnimationY) {
     if (widget.dismissOrientation == SwipeOrientation.up) {
-      return endAnimationY < draggingAnimationY;
+      return endAnimationY < _draggingAnimationY;
     } else if (widget.dismissOrientation == SwipeOrientation.down) {
-      return endAnimationY > draggingAnimationY;
+      return endAnimationY > _draggingAnimationY;
     }
 
     return true;
   }
 
+  /// Check on the current card, if the swipe is enabled or not for the
+  /// direction using the [CardWidget.swipeOrientation] property
   bool _isSwipeDirectionEnabled(double delta) {
     if (widget.swipeOrientation == SwipeOrientation.up) {
       return delta < 0;
@@ -139,5 +158,36 @@ class _CardWidgetState extends State<CardWidget>
     }
 
     return true;
+  }
+
+  /// Calculate the opacity to apply to the card if the
+  /// [CardWidget.opacityChangeOnDrag] is enabled
+  double _calculateOpacity() {
+    if(!widget.opacityChangeOnDrag) return 1.0;
+
+    final positionTop = widget.positionTop ?? 1.0;
+    final dragCurrent = _draggingAnimationY;
+
+    double opacity;
+
+    if(positionTop == 0 || dragCurrent == 0) {
+      opacity = 1.0;
+    } else if(positionTop < dragCurrent) {
+      opacity = (positionTop * _currentOpacity) / dragCurrent;
+    } else {
+      opacity = dragCurrent / positionTop;
+    }
+
+    if(opacity.isNaN && _currentOpacity < 0.5) {
+      return 0.0;
+    } else if(opacity.isNaN && _currentOpacity > 0.5) {
+      return 1.0;
+    } else if(opacity > 1) {
+      return 1.0;
+    } else if(opacity < 0.0) {
+      return 0.0;
+    } else {
+      return opacity;
+    }
   }
 }

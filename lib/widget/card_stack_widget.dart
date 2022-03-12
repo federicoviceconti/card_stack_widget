@@ -27,6 +27,9 @@ class CardStackWidget extends StatefulWidget {
   /// Drag direction enabled
   final SwipeOrientation? swipeOrientation;
 
+  /// Change card opacity on drag (by default is disabled)
+  final bool opacityChangeOnDrag;
+
   const CardStackWidget({
     Key? key,
     this.cardList,
@@ -36,6 +39,7 @@ class CardStackWidget extends StatefulWidget {
     this.reverseOrder,
     this.cardDismissOrientation,
     this.swipeOrientation,
+    this.opacityChangeOnDrag = false
   }) : super(key: key);
 
   @override
@@ -56,13 +60,14 @@ class _CardStackWidgetState extends State<CardStackWidget> {
     );
   }
 
-  _buildCard({
+  Widget _buildCard({
     double? calculatedTop,
     double? calculatedScale,
     CardModel? model,
     bool? draggable,
   }) {
     return CardWidget(
+      opacityChangeOnDrag: widget.opacityChangeOnDrag,
       positionTop: calculatedTop,
       swipeOrientation: widget.swipeOrientation ?? SwipeOrientation.both,
       dismissOrientation:
