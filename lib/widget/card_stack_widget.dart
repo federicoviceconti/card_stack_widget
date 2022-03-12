@@ -61,7 +61,7 @@ class _CardStackWidgetState extends State<CardStackWidget> {
   }
 
   Widget _buildCard({
-    double? calculatedTop,
+    required double calculatedTop,
     double? calculatedScale,
     CardModel? model,
     bool? draggable,

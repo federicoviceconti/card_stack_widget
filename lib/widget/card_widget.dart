@@ -21,14 +21,14 @@ class CardWidget extends StatefulWidget {
   final SwipeOrientation? swipeOrientation;
 
   /// Top from the parent
-  final double? positionTop;
+  final double positionTop;
 
   /// Change card opacity on drag (by default is disabled)
   final bool opacityChangeOnDrag;
 
   const CardWidget({
     Key? key,
-    this.positionTop,
+    required this.positionTop,
     this.scale,
     this.model,
     this.draggable,
@@ -46,18 +46,20 @@ class _CardWidgetState extends State<CardWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Offset> _animation;
-  double _draggingAnimationY = 0;
+  late double _draggingAnimationY;
   double _currentOpacity = 1.0;
 
   @override
   void initState() {
+    _draggingAnimationY = widget.positionTop;
+
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
     );
     _animation = Tween(
-      begin: Offset(0, widget.positionTop!),
-      end: Offset(0, widget.positionTop!),
+      begin: Offset(0, widget.positionTop),
+      end: Offset(0, widget.positionTop),
     ).animate(_animationController);
 
     super.initState();
@@ -66,7 +68,7 @@ class _CardWidgetState extends State<CardWidget>
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: widget.positionTop! + _animation.value.dy,
+        top: widget.positionTop + _animation.value.dy,
         child: Opacity(
           opacity: _currentOpacity,
           child: Transform.scale(
@@ -122,7 +124,7 @@ class _CardWidgetState extends State<CardWidget>
           begin: Offset(0, _animation.value.dy),
           end: Offset(
             0,
-            widget.positionTop!,
+            widget.positionTop,
           )).animate(CurvedAnimation(
         parent: _animationController,
         curve: Curves.easeIn,
@@ -165,7 +167,7 @@ class _CardWidgetState extends State<CardWidget>
   double _calculateOpacity() {
     if(!widget.opacityChangeOnDrag) return 1.0;
 
-    final positionTop = widget.positionTop ?? 1.0;
+    final positionTop = widget.positionTop;
     final dragCurrent = _draggingAnimationY;
 
     double opacity;

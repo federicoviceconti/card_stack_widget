@@ -32,8 +32,9 @@ class HomeWidget extends StatelessWidget {
     final mockList = _buildMockList(context, size: 4);
 
     return CardStackWidget(
+      opacityChangeOnDrag: true,
       swipeOrientation: SwipeOrientation.both,
-      cardDismissOrientation: SwipeOrientation.up,
+      cardDismissOrientation: SwipeOrientation.both,
       positionFactor: 0.3,
       scaleFactor: 0.2,
       alignment: Alignment.center,
