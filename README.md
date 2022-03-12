@@ -16,6 +16,7 @@ property *positionFactor* and *scaleFactor*.
 | scaleFactor | double |
 | positionFactor | double |
 | swipeOrientation | SwipeOrientation (enum) |
+| opacityChangeOnDrag | bool |
 
 **CardModel**
 | Property | Type |
