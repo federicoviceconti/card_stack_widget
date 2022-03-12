@@ -45,6 +45,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
         title: const Text('CardStackWidget example'),
       ),
       body: SafeArea(
+        bottom: false,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
