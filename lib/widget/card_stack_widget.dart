@@ -40,7 +40,7 @@ class CardStackWidget extends StatefulWidget {
     this.reverseOrder = false,
     this.cardDismissOrientation,
     this.swipeOrientation,
-    this.opacityChangeOnDrag = false
+    this.opacityChangeOnDrag = false,
   }) : super(key: key);
 
   @override
@@ -78,9 +78,9 @@ class _CardStackWidgetState extends State<CardStackWidget> {
       var scaleCalc = 1 - indexPercentage;
 
       cards.add(_buildCard(
+        model: cardListOrdered[currentIndex],
         calculatedTop: positionCalc,
         calculatedScale: scaleCalc,
-        model: cardListOrdered[currentIndex],
         draggable: currentIndex == lengthCardList - 1,
       ));
     }
@@ -90,8 +90,8 @@ class _CardStackWidgetState extends State<CardStackWidget> {
 
   Widget _buildCard({
     required double calculatedTop,
+    required CardModel model,
     double? calculatedScale,
-    CardModel? model,
     bool? draggable,
   }) {
     return CardWidget(

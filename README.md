@@ -71,5 +71,5 @@ _buildMockList(BuildContext context, {int size = 0}) {
 **CardModel**:
 - shadowColor: Color
 - backgroundColor: Color
-- radius: double
+- radius: Radius
 - child: Widget

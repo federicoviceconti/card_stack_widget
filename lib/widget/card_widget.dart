@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class CardWidget extends StatefulWidget {
   /// Current card model shown
-  final CardModel? model;
+  final CardModel model;
 
   final double? scale;
 
@@ -27,17 +27,17 @@ class CardWidget extends StatefulWidget {
   /// Change card opacity on drag (by default is disabled)
   final bool opacityChangeOnDrag;
 
-  const CardWidget({
-    Key? key,
-    required this.positionTop,
-    this.scale,
-    this.model,
-    this.draggable,
-    this.onCardDragEnd,
-    this.dismissOrientation = CardOrientation.both,
-    this.swipeOrientation = CardOrientation.both,
-    this.opacityChangeOnDrag = false
-  }) : super(key: key);
+  const CardWidget(
+      {Key? key,
+      required this.positionTop,
+      required this.model,
+      this.scale,
+      this.draggable,
+      this.onCardDragEnd,
+      this.dismissOrientation = CardOrientation.both,
+      this.swipeOrientation = CardOrientation.both,
+      this.opacityChangeOnDrag = false})
+      : super(key: key);
 
   @override
   _CardWidgetState createState() => _CardWidgetState();
@@ -79,14 +79,13 @@ class _CardWidgetState extends State<CardWidget>
               onVerticalDragEnd: _handleVerticalEnd,
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.all(Radius.circular(widget.model!.radius)),
+                  borderRadius: BorderRadius.all(widget.model.radius),
                   boxShadow: [
-                    BoxShadow(blurRadius: 2, color: widget.model!.shadowColor)
+                    BoxShadow(blurRadius: 2, color: widget.model.shadowColor)
                   ],
-                  color: widget.model!.backgroundColor,
+                  color: widget.model.backgroundColor,
                 ),
-                child: widget.model!.child,
+                child: widget.model.child,
               ),
             ),
           ),

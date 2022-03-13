@@ -17,7 +17,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
 
   double _scaleFactorValue = 1;
 
-  double _radius = 16.0;
+  Radius _radius = const Radius.circular(16.0);
 
   final _radiusController = TextEditingController();
 
@@ -57,7 +57,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                   final convertedValue = double.tryParse(value);
                   if (convertedValue != null) {
                     setState(() {
-                      _radius = convertedValue;
+                      _radius = Radius.circular(convertedValue);
                     });
                   }
                 },
