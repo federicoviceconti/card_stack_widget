@@ -22,9 +22,10 @@ class CardStackWidget extends StatefulWidget {
   final bool reverseOrder;
 
   /// Direction where the card could be dismissed and removed from the list
+  /// By default is [CardOrientation.both]
   final CardOrientation? cardDismissOrientation;
 
-  /// Drag direction enabled
+  /// Drag direction enabled. By default is [CardOrientation.both]
   final CardOrientation? swipeOrientation;
 
   /// Change card opacity on drag (by default is disabled)
@@ -97,8 +98,7 @@ class _CardStackWidgetState extends State<CardStackWidget> {
       opacityChangeOnDrag: widget.opacityChangeOnDrag,
       positionTop: calculatedTop,
       swipeOrientation: widget.swipeOrientation ?? CardOrientation.both,
-      dismissOrientation:
-          widget.cardDismissOrientation ?? CardOrientation.both,
+      dismissOrientation: widget.cardDismissOrientation ?? CardOrientation.both,
       scale: calculatedScale,
       model: model,
       draggable: draggable,

@@ -14,11 +14,12 @@ class CardWidget extends StatefulWidget {
   /// Function invoked at the end of the drag
   final Function()? onCardDragEnd;
 
-  /// Direction where the card could be dismissed and removed from the list
-  final CardOrientation? dismissOrientation;
+  /// Direction where the card could be dismissed and removed from the list.
+  /// By default is [CardOrientation.both]
+  final CardOrientation dismissOrientation;
 
-  /// Drag direction enabled
-  final CardOrientation? swipeOrientation;
+  /// Drag direction enabled. By default is [CardOrientation.both]
+  final CardOrientation swipeOrientation;
 
   /// Top from the parent
   final double positionTop;
@@ -33,8 +34,8 @@ class CardWidget extends StatefulWidget {
     this.model,
     this.draggable,
     this.onCardDragEnd,
-    this.dismissOrientation,
-    this.swipeOrientation,
+    this.dismissOrientation = CardOrientation.both,
+    this.swipeOrientation = CardOrientation.both,
     this.opacityChangeOnDrag = false
   }) : super(key: key);
 

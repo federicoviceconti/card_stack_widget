@@ -10,12 +10,12 @@ property *positionFactor* and *scaleFactor*.
 | Property | Type |
 | ------ | ------ |
 | cardList | List of CardModel |
-| cardDismissOrientation | SwipeOrientation (enum) |
+| cardDismissOrientation | CardOrientation (enum) |
 | reverseOrder | bool |
 | alignment | Alignment |
 | scaleFactor | double |
 | positionFactor | double |
-| swipeOrientation | SwipeOrientation (enum) |
+| swipeOrientation | CardOrientation (enum) |
 
 **CardModel**
 | Property | Type |
