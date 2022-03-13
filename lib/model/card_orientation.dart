@@ -1,4 +1,4 @@
-enum SwipeOrientation {
+enum CardOrientation {
   up,
   down,
   both,

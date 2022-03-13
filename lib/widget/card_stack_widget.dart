@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../model/card_model.dart';
-import '../model/swipe_orientation.dart';
+import '../model/card_orientation.dart';
 import '../widget/card_widget.dart';
 
 class CardStackWidget extends StatefulWidget {
@@ -22,10 +22,10 @@ class CardStackWidget extends StatefulWidget {
   final bool reverseOrder;
 
   /// Direction where the card could be dismissed and removed from the list
-  final SwipeOrientation? cardDismissOrientation;
+  final CardOrientation? cardDismissOrientation;
 
   /// Drag direction enabled
-  final SwipeOrientation? swipeOrientation;
+  final CardOrientation? swipeOrientation;
 
   /// Change card opacity on drag (by default is disabled)
   final bool opacityChangeOnDrag;
@@ -61,30 +61,30 @@ class _CardStackWidgetState extends State<CardStackWidget> {
   }
 
   List<Widget> _buildCards() {
-    var lengthCardList = widget.cardList.length;
+    final lengthCardList = widget.cardList.length;
 
-    var cardListOrdered = !widget.reverseOrder
+    final cardListOrdered = !widget.reverseOrder
         ? widget.cardList.reversed.toList(growable: false)
         : widget.cardList;
 
-    var cardWidgetList = cardListOrdered.asMap().entries.map<Widget>((entry) {
-      var index = entry.key;
-      var model = entry.value;
+    final cards = <Widget>[];
 
-      var positionCalc = widget.positionFactor! * index * 10;
+    for (int currentIndex = 0; currentIndex < lengthCardList; currentIndex++) {
+      var positionCalc = widget.positionFactor! * currentIndex * 10;
       var scalePercentage = lengthCardList * widget.scaleFactor! / 100;
-      var indexPercentage = scalePercentage * (lengthCardList - index - 1);
+      var indexPercentage =
+          scalePercentage * (lengthCardList - currentIndex - 1);
       var scaleCalc = 1 - indexPercentage;
 
-      return _buildCard(
+      cards.add(_buildCard(
         calculatedTop: positionCalc,
         calculatedScale: scaleCalc,
-        model: model,
-        draggable: index == lengthCardList - 1,
-      );
-    }).toList(growable: false);
+        model: cardListOrdered[currentIndex],
+        draggable: currentIndex == lengthCardList - 1,
+      ));
+    }
 
-    return cardWidgetList;
+    return cards;
   }
 
   Widget _buildCard({
@@ -96,9 +96,9 @@ class _CardStackWidgetState extends State<CardStackWidget> {
     return CardWidget(
       opacityChangeOnDrag: widget.opacityChangeOnDrag,
       positionTop: calculatedTop,
-      swipeOrientation: widget.swipeOrientation ?? SwipeOrientation.both,
+      swipeOrientation: widget.swipeOrientation ?? CardOrientation.both,
       dismissOrientation:
-          widget.cardDismissOrientation ?? SwipeOrientation.both,
+          widget.cardDismissOrientation ?? CardOrientation.both,
       scale: calculatedScale,
       model: model,
       draggable: draggable,

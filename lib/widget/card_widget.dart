@@ -1,5 +1,5 @@
 import 'package:card_stack_widget/model/card_model.dart';
-import 'package:card_stack_widget/model/swipe_orientation.dart';
+import 'package:card_stack_widget/model/card_orientation.dart';
 import 'package:flutter/material.dart';
 
 class CardWidget extends StatefulWidget {
@@ -15,10 +15,10 @@ class CardWidget extends StatefulWidget {
   final Function()? onCardDragEnd;
 
   /// Direction where the card could be dismissed and removed from the list
-  final SwipeOrientation? dismissOrientation;
+  final CardOrientation? dismissOrientation;
 
   /// Drag direction enabled
-  final SwipeOrientation? swipeOrientation;
+  final CardOrientation? swipeOrientation;
 
   /// Top from the parent
   final double positionTop;
@@ -143,9 +143,9 @@ class _CardWidgetState extends State<CardWidget>
   /// Check on the current card, if it is dismissible or not for the direction
   /// using the [CardWidget.dismissOrientation] property
   bool _shouldDismissCard(double endAnimationY) {
-    if (widget.dismissOrientation == SwipeOrientation.up) {
+    if (widget.dismissOrientation == CardOrientation.up) {
       return endAnimationY < _draggingAnimationY;
-    } else if (widget.dismissOrientation == SwipeOrientation.down) {
+    } else if (widget.dismissOrientation == CardOrientation.down) {
       return endAnimationY > _draggingAnimationY;
     }
 
@@ -155,9 +155,9 @@ class _CardWidgetState extends State<CardWidget>
   /// Check on the current card, if the swipe is enabled or not for the
   /// direction using the [CardWidget.swipeOrientation] property
   bool _isSwipeDirectionEnabled(double delta) {
-    if (widget.swipeOrientation == SwipeOrientation.up) {
+    if (widget.swipeOrientation == CardOrientation.up) {
       return delta < 0;
-    } else if (widget.swipeOrientation == SwipeOrientation.down) {
+    } else if (widget.swipeOrientation == CardOrientation.down) {
       return delta > 0;
     }
 

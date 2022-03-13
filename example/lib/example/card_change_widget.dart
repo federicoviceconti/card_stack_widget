@@ -25,9 +25,9 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
 
   final _scaleFactorController = TextEditingController();
 
-  SwipeOrientation? _cardDismissOrientationValue;
+  CardOrientation? _cardDismissOrientationValue;
 
-  SwipeOrientation? _swipeOrientation;
+  CardOrientation? _swipeOrientation;
 
   @override
   void initState() {
@@ -123,10 +123,10 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                     'Card dismiss orientation',
                   ),
                   const SizedBox(width: 8),
-                  DropdownButton<SwipeOrientation>(
-                    items: SwipeOrientation.values
+                  DropdownButton<CardOrientation>(
+                    items: CardOrientation.values
                         .map(
-                          (e) => DropdownMenuItem<SwipeOrientation>(
+                          (e) => DropdownMenuItem<CardOrientation>(
                             child: Text(
                               e.toString(),
                             ),
@@ -152,10 +152,10 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                     'Swipe orientation',
                   ),
                   const SizedBox(width: 8),
-                  DropdownButton<SwipeOrientation>(
-                    items: SwipeOrientation.values
+                  DropdownButton<CardOrientation>(
+                    items: CardOrientation.values
                         .map(
-                          (e) => DropdownMenuItem<SwipeOrientation>(
+                          (e) => DropdownMenuItem<CardOrientation>(
                         child: Text(
                           e.toString(),
                         ),

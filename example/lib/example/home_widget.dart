@@ -34,8 +34,8 @@ class HomeWidget extends StatelessWidget {
 
     return CardStackWidget(
       opacityChangeOnDrag: true,
-      swipeOrientation: SwipeOrientation.both,
-      cardDismissOrientation: SwipeOrientation.both,
+      swipeOrientation: CardOrientation.both,
+      cardDismissOrientation: CardOrientation.both,
       positionFactor: 3,
       scaleFactor: 1.5,
       alignment: Alignment.center,
