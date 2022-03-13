@@ -9,7 +9,7 @@ class CardWidget extends StatefulWidget {
   final double? scale;
 
   /// Enable the dragging on the card
-  final bool? draggable;
+  final bool draggable;
 
   /// Function invoked at the end of the drag
   final Function()? onCardDragEnd;
@@ -27,17 +27,20 @@ class CardWidget extends StatefulWidget {
   /// Change card opacity on drag (by default is disabled)
   final bool opacityChangeOnDrag;
 
-  const CardWidget(
-      {Key? key,
-      required this.positionTop,
-      required this.model,
-      this.scale,
-      this.draggable,
-      this.onCardDragEnd,
-      this.dismissOrientation = CardOrientation.both,
-      this.swipeOrientation = CardOrientation.both,
-      this.opacityChangeOnDrag = false})
-      : super(key: key);
+  /// If not null, the function will be invoked on the tap of the card.
+  final Function(CardModel)? onCardTap;
+
+  CardWidget({
+    required this.positionTop,
+    required this.model,
+    required this.draggable,
+    this.onCardTap,
+    this.scale,
+    this.onCardDragEnd,
+    this.dismissOrientation = CardOrientation.both,
+    this.swipeOrientation = CardOrientation.both,
+    this.opacityChangeOnDrag = false,
+  }) : super(key: model.key);
 
   @override
   _CardWidgetState createState() => _CardWidgetState();
@@ -77,6 +80,7 @@ class _CardWidgetState extends State<CardWidget>
             child: GestureDetector(
               onVerticalDragUpdate: _handleVerticalUpdate,
               onVerticalDragEnd: _handleVerticalEnd,
+              onTap: () => widget.onCardTap?.call(widget.model),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(widget.model.radius),
@@ -95,7 +99,7 @@ class _CardWidgetState extends State<CardWidget>
   /// Handle the update on drag for the current card visible only if the
   /// [CardWidget.draggable] property is set to `true`
   void _handleVerticalUpdate(DragUpdateDetails details) {
-    if (widget.draggable! && _isSwipeDirectionEnabled(details.delta.dy)) {
+    if (widget.draggable && _isSwipeDirectionEnabled(details.delta.dy)) {
       setState(() {
         _currentOpacity = _calculateOpacity();
 
@@ -117,7 +121,7 @@ class _CardWidgetState extends State<CardWidget>
   void _handleVerticalEnd(DragEndDetails details) {
     var endAnimationY = _animation.value.dy;
 
-    if(endAnimationY != widget.positionTop) {
+    if (endAnimationY != widget.positionTop) {
       setState(() {
         _currentOpacity = 1.0;
 
@@ -167,28 +171,28 @@ class _CardWidgetState extends State<CardWidget>
   /// Calculate the opacity to apply to the card if the
   /// [CardWidget.opacityChangeOnDrag] is enabled
   double _calculateOpacity() {
-    if(!widget.opacityChangeOnDrag) return 1.0;
+    if (!widget.opacityChangeOnDrag) return 1.0;
 
     final positionTop = widget.positionTop;
     final dragCurrent = _draggingAnimationY;
 
     double opacity;
 
-    if(positionTop == 0 || dragCurrent == 0) {
+    if (positionTop == 0 || dragCurrent == 0) {
       opacity = 1.0;
-    } else if(positionTop < dragCurrent) {
+    } else if (positionTop < dragCurrent) {
       opacity = (positionTop * _currentOpacity) / dragCurrent;
     } else {
       opacity = dragCurrent / positionTop;
     }
 
-    if(opacity.isNaN && _currentOpacity < 0.5) {
+    if (opacity.isNaN && _currentOpacity < 0.5) {
       return 0.0;
-    } else if(opacity.isNaN && _currentOpacity > 0.5) {
+    } else if (opacity.isNaN && _currentOpacity > 0.5) {
       return 1.0;
-    } else if(opacity > 1) {
+    } else if (opacity > 1) {
       return 1.0;
-    } else if(opacity < 0.0) {
+    } else if (opacity < 0.0) {
       return 0.0;
     } else {
       return opacity;

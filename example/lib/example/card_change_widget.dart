@@ -105,7 +105,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                     },
                   ),
                   const SizedBox(width: 16),
-                  const Text('Padding on drag'),
+                  const Text('Opacity on drag'),
                   const SizedBox(width: 8),
                   Switch.adaptive(
                     value: _opacityChangeOnDrag,

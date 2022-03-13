@@ -21,7 +21,7 @@ CardStackWidget _buildCardStackWidget(BuildContext context) {
     positionFactor: 3,
     scaleFactor: 1.5,
     alignment: Alignment.center,
-    reverseOrder: false,
+    reverseOrder: true,
     cardList: mockList,
   );
 }
@@ -55,6 +55,10 @@ _buildMockList(BuildContext context, {int size = 0}) {
   return list;
 }
 ```
+
+## Preview
+
+<img src="https://github.com/federicoviceconti/card_stack_widget/blob/master/example/screenshots/example2.png?raw=true" alt="example 2 card widget" width="200">
 
 ## 🚀 Supported properties
 

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 /// This class is used by the [CardStackWidget] for the
 /// [CardStackWidget.cardList] attribute.
 class CardModel {
+  final Key? key;
+
   /// Shadow applied to the card
   final Color shadowColor;
 
@@ -17,9 +19,15 @@ class CardModel {
   final Widget? child;
 
   CardModel({
+    this.key,
     this.child,
     this.backgroundColor = Colors.white,
     this.shadowColor = Colors.black,
     this.radius = Radius.zero,
   });
+
+  @override
+  String toString() {
+    return 'CardModel{key: $key}';
+  }
 }

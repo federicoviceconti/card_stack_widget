@@ -39,7 +39,7 @@ class HomeWidget extends StatelessWidget {
       positionFactor: 3,
       scaleFactor: 1.5,
       alignment: Alignment.center,
-      reverseOrder: false,
+      reverseOrder: true,
       cardList: mockList,
     );
   }
@@ -106,6 +106,7 @@ class HomeWidget extends StatelessWidget {
 
       list.add(
         CardModel(
+          key: Key(i.toString()),
           backgroundColor: color,
           radius: const Radius.circular(8.0),
           shadowColor: Colors.black.withOpacity(0.2),

@@ -1,3 +1,8 @@
+## 0.0.5
+
+* Update documentation and added tests
+* Change `reverseOrder` logic
+
 ## 0.0.4
 
 * Fix the example images
