@@ -6,9 +6,9 @@ property *positionFactor* and *scaleFactor*.
 
 ## Example 1
 
-<img src="https://github.com/federicoviceconti/CardStackWidget/blob/master/screenshots/example.png" alt="example card widget" width="200">
+<img src="https://github.com/federicoviceconti/card_stack_widget/blob/master/example/screenshots/example.png" alt="example card widget" width="200">
 
 ## Example 2
 
-<img src="https://github.com/federicoviceconti/CardStackWidget/blob/master/screenshots/example2.png" alt="example 2 card widget" width="200">
+<img src="https://github.com/federicoviceconti/card_stack_widget/blob/master/example/screenshots/example2.png" alt="example 2 card widget" width="200">
 
