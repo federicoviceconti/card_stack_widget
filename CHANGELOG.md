@@ -1,3 +1,7 @@
+## 0.0.3
+
+* Update documentation and changed the radius attribute from double to `Radius`
+
 ## 0.0.2
 
 * Update documentation
