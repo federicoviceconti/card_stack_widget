@@ -56,7 +56,7 @@ _buildMockList(BuildContext context, {int size = 0}) {
 }
 ```
 
-### 🚀 Supported properties
+## 🚀 Supported properties
 
 **CardStackWidget**:
 - cardList: List of CardModel
