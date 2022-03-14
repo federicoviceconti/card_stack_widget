@@ -99,7 +99,8 @@ void main() {
         ),
       );
 
-      final widgets = tester.widgetList(find.byType(CardWidget));
+      final widgets = tester.widgetList(find.byType(Positioned));
+
       expect(
         widgets.first.key,
         equals(second.key),
@@ -151,8 +152,8 @@ void main() {
       final afterDrag = tester.widget(find.byKey(keyFirst));
 
       expect(
-        (beforeDrag as CardWidget).positionTop,
-        isNot((afterDrag as CardWidget).positionTop),
+        (beforeDrag as Positioned).top,
+        isNot((afterDrag as Positioned).top),
       );
     });
   });

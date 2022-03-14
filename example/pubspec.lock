@@ -18,9 +18,9 @@ packages:
   card_stack_widget:
     dependency: "direct main"
     description:
-      name: card_stack_widget
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: ".."
+      relative: true
+    source: path
     version: "0.0.5"
   characters:
     dependency: transitive

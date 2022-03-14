@@ -11,7 +11,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^0.1.2
-  card_stack_widget: ^0.0.5
+  card_stack_widget:
+    path: ../../card_stack_widget
 
 dev_dependencies:
   flutter_test:

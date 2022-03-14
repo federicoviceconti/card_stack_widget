@@ -35,7 +35,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
 
     _positionFactorController.text = _positionFactorValue.toString();
     _scaleFactorController.text = _scaleFactorValue.toString();
-    _radiusController.text = _radius.toString();
+    _radiusController.text = _radius.x.toString();
   }
 
   @override
@@ -201,52 +201,34 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
     final width = MediaQuery.of(context).size.width - 32;
     const height = 150.0;
 
-    return [
-      CardModel(
-        radius: _radius,
-        backgroundColor: Colors.blue,
-        child: SizedBox(
-          height: height,
-          width: width,
-          child: const Icon(Icons.map),
-        ),
-      ),
-      CardModel(
-        radius: _radius,
-        backgroundColor: Colors.grey,
-        child: SizedBox(
-          height: height,
-          width: width,
-          child: const Icon(Icons.extension),
-        ),
-      ),
-      CardModel(
-        radius: _radius,
-        backgroundColor: Colors.yellow,
-        child: SizedBox(
-          height: height,
-          width: width,
-          child: const Icon(Icons.ac_unit_rounded),
-        ),
-      ),
-      CardModel(
-        radius: _radius,
-        backgroundColor: Colors.green,
-        child: SizedBox(
-          height: height,
-          width: width,
-          child: const Icon(Icons.archive),
-        ),
-      ),
-      CardModel(
-        radius: _radius,
-        backgroundColor: Colors.red,
-        child: SizedBox(
-          height: height,
-          width: width,
-          child: const Icon(Icons.work),
-        ),
-      ),
+    const colors = [
+      Colors.red,
+      Colors.green,
+      Colors.white,
+      Colors.grey,
+      Colors.yellow,
     ];
+
+    var list = <CardModel>[];
+    for (int index = 0; index < colors.length; index++) {
+      var color = colors[index];
+
+      list.add(
+        CardModel(
+          key: Key("$index"),
+          backgroundColor: color,
+          radius: _radius,
+          shadowColor: Colors.black.withOpacity(0.2),
+          child: Container(
+            height: height,
+            width: width,
+            alignment: Alignment.topCenter,
+            child: Text("$index"),
+          ),
+        ),
+      );
+    }
+
+    return list;
   }
 }

@@ -106,7 +106,6 @@ class HomeWidget extends StatelessWidget {
 
       list.add(
         CardModel(
-          key: Key(i.toString()),
           backgroundColor: color,
           radius: const Radius.circular(8.0),
           shadowColor: Colors.black.withOpacity(0.2),

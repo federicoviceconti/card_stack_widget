@@ -30,7 +30,8 @@ class CardWidget extends StatefulWidget {
   /// If not null, the function will be invoked on the tap of the card.
   final Function(CardModel)? onCardTap;
 
-  CardWidget({
+  const CardWidget({
+    Key? key,
     required this.positionTop,
     required this.model,
     required this.draggable,
@@ -40,7 +41,7 @@ class CardWidget extends StatefulWidget {
     this.dismissOrientation = CardOrientation.both,
     this.swipeOrientation = CardOrientation.both,
     this.opacityChangeOnDrag = false,
-  }) : super(key: model.key);
+  }) : super(key: key);
 
   @override
   _CardWidgetState createState() => _CardWidgetState();
@@ -72,28 +73,30 @@ class _CardWidgetState extends State<CardWidget>
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: widget.positionTop + _animation.value.dy,
-        child: Opacity(
-          opacity: _currentOpacity,
-          child: Transform.scale(
-            scale: widget.scale!,
-            child: GestureDetector(
-              onVerticalDragUpdate: _handleVerticalUpdate,
-              onVerticalDragEnd: _handleVerticalEnd,
-              onTap: () => widget.onCardTap?.call(widget.model),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(widget.model.radius),
-                  boxShadow: [
-                    BoxShadow(blurRadius: 2, color: widget.model.shadowColor)
-                  ],
-                  color: widget.model.backgroundColor,
-                ),
-                child: widget.model.child,
+      key: widget.model.key,
+      top: widget.positionTop + _animation.value.dy,
+      child: Opacity(
+        opacity: _currentOpacity,
+        child: Transform.scale(
+          scale: widget.scale!,
+          child: GestureDetector(
+            onVerticalDragUpdate: _handleVerticalUpdate,
+            onVerticalDragEnd: _handleVerticalEnd,
+            onTap: () => widget.onCardTap?.call(widget.model),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(widget.model.radius),
+                boxShadow: [
+                  BoxShadow(blurRadius: 2, color: widget.model.shadowColor)
+                ],
+                color: widget.model.backgroundColor,
               ),
+              child: widget.model.child,
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   /// Handle the update on drag for the current card visible only if the
