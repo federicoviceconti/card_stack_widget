@@ -58,7 +58,9 @@ _buildMockList(BuildContext context, {int size = 0}) {
 
 ## Preview
 
-<img src="https://github.com/federicoviceconti/card_stack_widget/blob/master/example/screenshots/example2.png?raw=true" alt="example 2 card widget" width="200">
+<img src="https://github.com/federicoviceconti/card_stack_widget/blob/master/example/gif/change_example_1.gif?raw=true" alt="GIF example card widget 1" width="200">
+
+<img src="https://github.com/federicoviceconti/card_stack_widget/blob/master/example/gif/change_example_2.gif?raw=true" alt="GIF example card widget 2" width="200">
 
 ## 🚀 Supported properties
 
@@ -73,6 +75,7 @@ _buildMockList(BuildContext context, {int size = 0}) {
 - opacityChangeOnDrag: bool
 
 **CardModel**:
+- key: Key
 - shadowColor: Color
 - backgroundColor: Color
 - radius: Radius
