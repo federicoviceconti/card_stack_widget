@@ -156,12 +156,12 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                     items: CardOrientation.values
                         .map(
                           (e) => DropdownMenuItem<CardOrientation>(
-                        child: Text(
-                          e.toString(),
-                        ),
-                        value: e,
-                      ),
-                    )
+                            child: Text(
+                              e.toString(),
+                            ),
+                            value: e,
+                          ),
+                        )
                         .toList(),
                     onChanged: (value) {
                       setState(() {

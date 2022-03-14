@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Fix animation when `key` is set
+
 ## 0.0.5
 
 * Update documentation and added tests
