@@ -80,3 +80,6 @@ _buildMockList(BuildContext context, {int size = 0}) {
 - backgroundColor: Color
 - radius: Radius
 - child: Widget
+
+🚧 Roadmap
+* Adding animation for cards in list
