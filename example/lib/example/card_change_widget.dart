@@ -95,7 +95,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
               Row(
                 children: [
                   const Text('Reverse order'),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 2),
                   Switch.adaptive(
                     value: _reverseOrder,
                     onChanged: (value) {
@@ -104,9 +104,9 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                       });
                     },
                   ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 2),
                   const Text('Opacity on drag'),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 2),
                   Switch.adaptive(
                     value: _opacityChangeOnDrag,
                     onChanged: (value) {
@@ -120,9 +120,8 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
               Row(
                 children: [
                   const Text(
-                    'Card dismiss orientation',
+                    'Dismiss orientation',
                   ),
-                  const SizedBox(width: 8),
                   DropdownButton<CardOrientation>(
                     items: CardOrientation.values
                         .map(
