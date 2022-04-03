@@ -1,3 +1,7 @@
+## 0.0.7
+
+* Add the `animateCardScale` property
+
 ## 0.0.6
 
 * Fix animation when `key` is set

@@ -50,6 +50,10 @@ class CardStackWidget extends StatefulWidget {
   /// If not null, the function will be invoked on the tap of the card.
   final Function(CardModel)? onCardTap;
 
+  /// Animate the card using a smooth transition.
+  /// It's better to use with [opacityChangeOnDrag] set on true.
+  final bool animateCardScale;
+
   const CardStackWidget({
     Key? key,
     required this.cardList,
@@ -61,6 +65,7 @@ class CardStackWidget extends StatefulWidget {
     CardOrientation? swipeOrientation,
     this.onCardTap,
     this.opacityChangeOnDrag = false,
+    this.animateCardScale = false,
   })  : scaleFactor = scaleFactor ?? scaleFactorDefault,
         positionFactor = positionFactor ?? positionFactorDefault,
         cardDismissOrientation = cardDismissOrientation ?? CardOrientation.both,
@@ -95,45 +100,72 @@ class _CardStackWidgetState extends State<CardStackWidget> {
     final cards = <CardWidget>[];
 
     for (int currentIndex = 0; currentIndex < lengthCardList; currentIndex++) {
-      var positionCalc = widget.positionFactor * currentIndex * 10;
-      var scalePercentage = lengthCardList * widget.scaleFactor / 100;
-      var indexPercentage =
+      final positionCalc = widget.positionFactor * currentIndex * 10;
+
+      final scalePercentage = lengthCardList * widget.scaleFactor / 100;
+
+      final indexPercentage =
           scalePercentage * (lengthCardList - currentIndex - 1);
+
       var scaleCalc = 1 - indexPercentage;
 
-      cards.add(_buildCard(
-        model: cardListOrdered[currentIndex],
-        calculatedTop: positionCalc,
-        calculatedScale: scaleCalc,
-        draggable: currentIndex == lengthCardList - 1,
-      ));
+      final model = cardListOrdered[currentIndex];
+
+      final draggable = currentIndex == lengthCardList - 1;
+
+      final listenableTop = ValueNotifier<double>(0);
+
+      final listenableScale = ValueNotifier<double>(0);
+
+      final card = CardWidget(
+        listenablePositionTop: listenableTop,
+        listenableScale: listenableScale,
+        opacityChangeOnDrag: widget.opacityChangeOnDrag,
+        positionTop: positionCalc,
+        swipeOrientation: widget.swipeOrientation,
+        dismissOrientation: widget.cardDismissOrientation,
+        scale: scaleCalc,
+        model: model,
+        draggable: draggable,
+        onCardTap: widget.onCardTap,
+        onCardDragEnd: () {
+          var model = widget.cardList.removeAt(widget.cardList.length - 1);
+          setState(() {
+            widget.cardList.insert(0, model);
+          });
+        },
+        onCardUpdate: (delta) {
+          if (widget.animateCardScale) {
+            _makeAnimationValue(cards, currentIndex, delta);
+          }
+        },
+      );
+
+      cards.add(card);
     }
 
     return cards;
   }
 
-  /// Return a widget of type [CardWidget]
-  CardWidget _buildCard({
-    required double calculatedTop,
-    required CardModel model,
-    required bool draggable,
-    double? calculatedScale,
-  }) {
-    return CardWidget(
-      opacityChangeOnDrag: widget.opacityChangeOnDrag,
-      positionTop: calculatedTop,
-      swipeOrientation: widget.swipeOrientation,
-      dismissOrientation: widget.cardDismissOrientation,
-      scale: calculatedScale,
-      model: model,
-      draggable: draggable,
-      onCardTap: widget.onCardTap,
-      onCardDragEnd: () {
-        var model = widget.cardList.removeAt(widget.cardList.length - 1);
-        setState(() {
-          widget.cardList.insert(0, model);
-        });
-      },
-    );
+  void _makeAnimationValue(
+      List<CardWidget> cards, int currentIndex, Offset delta) {
+    for (int current = 0; current < cards.length; current++) {
+      if (current == currentIndex) continue;
+
+      if (delta.dy > 0 &&
+          current < cards.length &&
+          cards[current].scale! + cards[current].listenableScale.value <
+              cards[current + 1].scale!) {
+        cards[current].listenableScale.value += delta.dy / 500;
+
+        if (delta.dy > 0 &&
+            current < cards.length &&
+            cards[current].positionTop +
+                    cards[current].listenablePositionTop.value <
+                cards[current + 1].positionTop) {
+          cards[current].listenablePositionTop.value += delta.dy / 2;
+        }
+      }
+    }
   }
 }

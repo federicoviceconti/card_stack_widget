@@ -2,6 +2,8 @@ import 'package:card_stack_widget/model/card_model.dart';
 import 'package:card_stack_widget/model/card_orientation.dart';
 import 'package:flutter/material.dart';
 
+import './card_stack_widget.dart';
+
 class CardWidget extends StatefulWidget {
   /// Current card model shown
   final CardModel model;
@@ -30,14 +32,28 @@ class CardWidget extends StatefulWidget {
   /// If not null, the function will be invoked on the tap of the card.
   final Function(CardModel)? onCardTap;
 
+  /// Used for animate position when [CardStackWidget.animateCardScale] is set
+  /// on true.
+  final ValueNotifier<double> listenablePositionTop;
+
+  /// Used for animate scale when [CardStackWidget.animateCardScale] is set
+  /// on true.
+  final ValueNotifier<double> listenableScale;
+
+  /// Function called when this card is moved.
+  final Function(Offset)? onCardUpdate;
+
   const CardWidget({
     Key? key,
+    required this.listenableScale,
+    required this.listenablePositionTop,
     required this.positionTop,
     required this.model,
     required this.draggable,
     this.onCardTap,
     this.scale,
     this.onCardDragEnd,
+    this.onCardUpdate,
     this.dismissOrientation = CardOrientation.both,
     this.swipeOrientation = CardOrientation.both,
     this.opacityChangeOnDrag = false,
@@ -72,26 +88,41 @@ class _CardWidgetState extends State<CardWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      key: widget.model.key,
-      top: widget.positionTop + _animation.value.dy,
+    return ValueListenableBuilder<double>(
+      valueListenable: widget.listenablePositionTop,
+      builder: (_, top, child) {
+        return Positioned(
+          key: widget.model.key,
+          top: widget.positionTop + _animation.value.dy + top,
+          child: child ?? const IgnorePointer(),
+        );
+      },
       child: Opacity(
         opacity: _currentOpacity,
-        child: Transform.scale(
-          scale: widget.scale!,
-          child: GestureDetector(
-            onVerticalDragUpdate: _handleVerticalUpdate,
-            onVerticalDragEnd: _handleVerticalEnd,
-            onTap: () => widget.onCardTap?.call(widget.model),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(widget.model.radius),
-                boxShadow: [
-                  BoxShadow(blurRadius: 2, color: widget.model.shadowColor)
-                ],
-                color: widget.model.backgroundColor,
+        child: ValueListenableBuilder<double>(
+          valueListenable: widget.listenableScale,
+          builder: (_, scale, child) {
+            return Transform.scale(
+              scale: widget.scale! + scale,
+              child: child ?? const IgnorePointer(),
+            );
+          },
+          child: Transform.scale(
+            scale: widget.scale!,
+            child: GestureDetector(
+              onVerticalDragUpdate: _handleVerticalUpdate,
+              onVerticalDragEnd: _handleVerticalEnd,
+              onTap: () => widget.onCardTap?.call(widget.model),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(widget.model.radius),
+                  boxShadow: [
+                    BoxShadow(blurRadius: 2, color: widget.model.shadowColor)
+                  ],
+                  color: widget.model.backgroundColor,
+                ),
+                child: widget.model.child,
               ),
-              child: widget.model.child,
             ),
           ),
         ),
@@ -115,6 +146,8 @@ class _CardWidgetState extends State<CardWidget>
               _animation.value.dy + details.delta.dy,
             )).animate(_animationController);
       });
+
+      widget.onCardUpdate?.call(details.delta);
 
       _animationController.forward();
     }
