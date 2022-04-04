@@ -192,25 +192,31 @@ class _CardWidgetState extends State<CardWidget>
   /// Check on the current card, if it is dismissible or not for the direction
   /// using the [CardWidget.dismissOrientation] property
   bool _shouldDismissCard(double endAnimationY) {
-    if (widget.dismissOrientation == CardOrientation.up) {
-      return endAnimationY < _draggingAnimationY;
-    } else if (widget.dismissOrientation == CardOrientation.down) {
-      return endAnimationY > _draggingAnimationY;
+    switch (widget.swipeOrientation) {
+      case CardOrientation.up:
+        return endAnimationY < _draggingAnimationY;
+      case CardOrientation.down:
+        return endAnimationY > _draggingAnimationY;
+      case CardOrientation.both:
+        return true;
+      case CardOrientation.none:
+        return false;
     }
-
-    return true;
   }
 
   /// Check on the current card, if the swipe is enabled or not for the
   /// direction using the [CardWidget.swipeOrientation] property
   bool _isSwipeDirectionEnabled(double delta) {
-    if (widget.swipeOrientation == CardOrientation.up) {
-      return delta < 0;
-    } else if (widget.swipeOrientation == CardOrientation.down) {
-      return delta > 0;
+    switch (widget.swipeOrientation) {
+      case CardOrientation.up:
+        return delta < 0;
+      case CardOrientation.down:
+        return delta > 0;
+      case CardOrientation.both:
+        return true;
+      case CardOrientation.none:
+        return false;
     }
-
-    return true;
   }
 
   /// Calculate the opacity to apply to the card if the

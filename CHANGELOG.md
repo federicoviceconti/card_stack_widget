@@ -1,3 +1,7 @@
+## 0.0.9
+
+* Adding `CardOrientation.none` on card_orientation.dart to disable the swipe on cards
+
 ## 0.0.8
 
 * Fix the dismiss orientation according to the last card dismiss

@@ -51,7 +51,7 @@ class CardStackWidget extends StatefulWidget {
   final Function(CardModel)? onCardTap;
 
   /// Animate the card using a smooth transition.
-  /// It's better to use with [opacityChangeOnDrag] set on true.
+  /// It's better to use with [opacityChangeOnDrag] set on `true`.
   final bool animateCardScale;
 
   const CardStackWidget({
@@ -107,7 +107,7 @@ class _CardStackWidgetState extends State<CardStackWidget> {
       final indexPercentage =
           scalePercentage * (lengthCardList - currentIndex - 1);
 
-      var scaleCalc = 1 - indexPercentage;
+      final scaleCalc = 1 - indexPercentage;
 
       final model = cardListOrdered[currentIndex];
 
@@ -129,27 +129,7 @@ class _CardStackWidgetState extends State<CardStackWidget> {
         draggable: draggable,
         onCardTap: widget.onCardTap,
         onCardDragEnd: (orientation) {
-          final lastElementIndex = !widget.reverseOrder
-              ? (orientation == CardOrientation.down
-                  ? widget.cardList.length - 1
-                  : 0)
-              : (orientation == CardOrientation.down
-                  ? 0
-                  : widget.cardList.length - 1);
-
-          final firstElementIndex = !widget.reverseOrder
-              ? (orientation == CardOrientation.down
-                  ? 0
-                  : widget.cardList.length - 1)
-              : (orientation == CardOrientation.down
-                  ? widget.cardList.length - 1
-                  : 0);
-
-          final model = widget.cardList.removeAt(lastElementIndex);
-
-          setState(() {
-            widget.cardList.insert(firstElementIndex, model);
-          });
+          _updateCardListOnAnimationEnd(orientation);
         },
         onCardUpdate: (delta) {
           if (widget.animateCardScale) {
@@ -164,6 +144,8 @@ class _CardStackWidgetState extends State<CardStackWidget> {
     return cards;
   }
 
+  /// This is used to make a smooth animation between cards into the list,
+  /// when the [widget.animateCardScale] is set to `true`
   void _makeAnimationValue(
       List<CardWidget> cards, int currentIndex, Offset delta) {
     for (int current = 0; current < cards.length; current++) {
@@ -184,5 +166,27 @@ class _CardStackWidgetState extends State<CardStackWidget> {
         }
       }
     }
+  }
+
+  /// Reorder the element inside the [widget.cardList] at the end of the
+  /// animation based on swipe orientation
+  void _updateCardListOnAnimationEnd(CardOrientation orientation) {
+    final lastElementIndex = !widget.reverseOrder
+        ? (orientation == CardOrientation.down ? widget.cardList.length - 1 : 0)
+        : (orientation == CardOrientation.down
+            ? 0
+            : widget.cardList.length - 1);
+
+    final firstElementIndex = !widget.reverseOrder
+        ? (orientation == CardOrientation.down ? 0 : widget.cardList.length - 1)
+        : (orientation == CardOrientation.down
+            ? widget.cardList.length - 1
+            : 0);
+
+    final model = widget.cardList.removeAt(lastElementIndex);
+
+    setState(() {
+      widget.cardList.insert(firstElementIndex, model);
+    });
   }
 }
