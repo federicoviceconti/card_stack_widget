@@ -182,7 +182,7 @@ class _CardWidgetState extends State<CardWidget>
   }
 
   CardOrientation _getDismissOrientation(double endAnimationY) {
-    if(endAnimationY < _draggingAnimationY) {
+    if (endAnimationY < _draggingAnimationY) {
       return CardOrientation.up;
     } else {
       return CardOrientation.down;
