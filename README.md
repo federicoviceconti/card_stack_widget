@@ -22,6 +22,7 @@ CardStackWidget _buildCardStackWidget(BuildContext context) {
     scaleFactor: 1.5,
     alignment: Alignment.center,
     reverseOrder: true,
+    animateCardScale: true,
     cardList: mockList,
   );
 }
@@ -73,6 +74,7 @@ _buildMockList(BuildContext context, {int size = 0}) {
 - positionFactor: double
 - swipeOrientation: CardOrientation (enum)
 - opacityChangeOnDrag: bool
+- animateCardScale: bool
 
 **CardModel**:
 - key: Key
@@ -80,6 +82,3 @@ _buildMockList(BuildContext context, {int size = 0}) {
 - backgroundColor: Color
 - radius: Radius
 - child: Widget
-
-## 🚧 Roadmap
-* Adding animation for cards in list

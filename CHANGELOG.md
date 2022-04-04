@@ -1,3 +1,7 @@
+## 0.0.8
+
+* Fix the dismiss orientation according to the last card dismiss
+
 ## 0.0.7
 
 * Add the `animateCardScale` property

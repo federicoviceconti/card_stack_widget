@@ -128,10 +128,27 @@ class _CardStackWidgetState extends State<CardStackWidget> {
         model: model,
         draggable: draggable,
         onCardTap: widget.onCardTap,
-        onCardDragEnd: () {
-          var model = widget.cardList.removeAt(widget.cardList.length - 1);
+        onCardDragEnd: (orientation) {
+          final lastElementIndex = !widget.reverseOrder
+              ? (orientation == CardOrientation.down
+                  ? widget.cardList.length - 1
+                  : 0)
+              : (orientation == CardOrientation.down
+                  ? 0
+                  : widget.cardList.length - 1);
+
+          final firstElementIndex = !widget.reverseOrder
+              ? (orientation == CardOrientation.down
+                  ? 0
+                  : widget.cardList.length - 1)
+              : (orientation == CardOrientation.down
+                  ? widget.cardList.length - 1
+                  : 0);
+
+          final model = widget.cardList.removeAt(lastElementIndex);
+
           setState(() {
-            widget.cardList.insert(0, model);
+            widget.cardList.insert(firstElementIndex, model);
           });
         },
         onCardUpdate: (delta) {

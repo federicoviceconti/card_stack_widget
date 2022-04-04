@@ -9,6 +9,8 @@ class CardChangeWidget extends StatefulWidget {
 }
 
 class _CardChangeWidgetState extends State<CardChangeWidget> {
+  bool _cardScaleAnimation = false;
+
   bool _opacityChangeOnDrag = false;
 
   bool _reverseOrder = false;
@@ -94,7 +96,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  const Text('Reverse order'),
+                  const Text('Reverse'),
                   const SizedBox(width: 2),
                   Switch.adaptive(
                     value: _reverseOrder,
@@ -105,13 +107,24 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                     },
                   ),
                   const SizedBox(width: 2),
-                  const Text('Opacity on drag'),
+                  const Text('Opacity'),
                   const SizedBox(width: 2),
                   Switch.adaptive(
                     value: _opacityChangeOnDrag,
                     onChanged: (value) {
                       setState(() {
                         _opacityChangeOnDrag = value;
+                      });
+                    },
+                  ),
+                  const SizedBox(width: 2),
+                  const Text('Scale'),
+                  const SizedBox(width: 2),
+                  Switch.adaptive(
+                    value: _cardScaleAnimation,
+                    onChanged: (value) {
+                      setState(() {
+                        _cardScaleAnimation = value;
                       });
                     },
                   ),
@@ -186,6 +199,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
   Widget _buildCardStackWidget() {
     return CardStackWidget(
       opacityChangeOnDrag: _opacityChangeOnDrag,
+      animateCardScale: _cardScaleAnimation,
       positionFactor: double.tryParse(_positionFactorController.text),
       scaleFactor: double.tryParse(_scaleFactorController.text),
       cardList: _buildMockListCard(),

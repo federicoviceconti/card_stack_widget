@@ -13,8 +13,9 @@ class CardWidget extends StatefulWidget {
   /// Enable the dragging on the card
   final bool draggable;
 
-  /// Function invoked at the end of the drag
-  final Function()? onCardDragEnd;
+  /// Function invoked at the end of the drag. The [CardOrientation] parameter
+  /// indicate the dismiss orientation.
+  final Function(CardOrientation)? onCardDragEnd;
 
   /// Direction where the card could be dismissed and removed from the list.
   /// By default is [CardOrientation.both]
@@ -175,8 +176,16 @@ class _CardWidgetState extends State<CardWidget>
       });
 
       if (_shouldDismissCard(endAnimationY)) {
-        widget.onCardDragEnd!();
+        widget.onCardDragEnd!(_getDismissOrientation(endAnimationY));
       }
+    }
+  }
+
+  CardOrientation _getDismissOrientation(double endAnimationY) {
+    if(endAnimationY < _draggingAnimationY) {
+      return CardOrientation.up;
+    } else {
+      return CardOrientation.down;
     }
   }
 
