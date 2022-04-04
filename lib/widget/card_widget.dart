@@ -192,7 +192,7 @@ class _CardWidgetState extends State<CardWidget>
   /// Check on the current card, if it is dismissible or not for the direction
   /// using the [CardWidget.dismissOrientation] property
   bool _shouldDismissCard(double endAnimationY) {
-    switch (widget.swipeOrientation) {
+    switch (widget.dismissOrientation) {
       case CardOrientation.up:
         return endAnimationY < _draggingAnimationY;
       case CardOrientation.down:
