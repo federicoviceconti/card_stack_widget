@@ -30,9 +30,9 @@ class HomeWidget extends StatelessWidget {
   }
 
   CardStackWidget _buildCardStackWidget(BuildContext context) {
-    final mockList = _buildMockList(context, size: 4);
-
-    return CardStackWidget(
+    return CardStackWidget.builder(
+      count: 4,
+      builder: (index) => _buildItemList(index, context),
       opacityChangeOnDrag: true,
       swipeOrientation: CardOrientation.both,
       cardDismissOrientation: CardOrientation.both,
@@ -40,7 +40,6 @@ class HomeWidget extends StatelessWidget {
       scaleFactor: 1.5,
       alignment: Alignment.center,
       reverseOrder: true,
-      cardList: mockList,
     );
   }
 
@@ -96,84 +95,77 @@ class HomeWidget extends StatelessWidget {
     );
   }
 
-  _buildMockList(BuildContext context, {int size = 0}) {
+  _buildItemList(int index, BuildContext context) {
     final double containerWidth = MediaQuery.of(context).size.width - 16;
 
-    var list = <CardModel>[];
-    for (int i = 0; i < size; i++) {
-      var color = Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0)
-          .withOpacity(1.0);
+    var color =
+        Color((Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
 
-      list.add(
-        CardModel(
-          backgroundColor: color,
-          radius: const Radius.circular(8.0),
-          shadowColor: Colors.black.withOpacity(0.2),
-          child: SizedBox(
-            height: 310,
-            width: containerWidth,
-            child: Column(
+    return CardModel(
+      backgroundColor: color,
+      radius: const Radius.circular(8.0),
+      shadowColor: Colors.black.withOpacity(0.2),
+      child: SizedBox(
+        height: 310,
+        width: containerWidth,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Builder: $index",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "$i",
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                Flexible(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "From",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Apple Palo Alto, 340 University Ave, Palo Alto, CA 94301, Stati Uniti",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              "From",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Apple Palo Alto, 340 University Ave, Palo Alto, CA 94301, Stati Uniti",
-                            ),
-                          ],
+                Flexible(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "To",
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                      ),
+                        Text(
+                          "Googleplex, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, Stati Uniti",
+                        ),
+                      ],
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              "To",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Googleplex, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, Stati Uniti",
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Image.asset("assets/directions.png"),
+                  ),
                 )
               ],
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Image.asset("assets/directions.png"),
+            )
+          ],
         ),
-      );
-    }
-
-    return list;
+      ),
+    );
   }
 }

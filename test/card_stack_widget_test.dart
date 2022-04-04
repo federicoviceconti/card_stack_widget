@@ -156,5 +156,32 @@ void main() {
         isNot((afterDrag as Positioned).top),
       );
     });
+
+    testWidgets('Must have the exact count for builder constructor',
+        (tester) async {
+      const count = 4;
+
+      await tester.pumpWidget(
+        TestApp(
+          child: CardStackWidget.builder(
+            count: count,
+            builder: (index) {
+              return CardModel(
+                child: Text(
+                  '$index',
+                  key: Key(index.toString()),
+                ),
+              );
+            },
+            scaleFactor: 2.0,
+            positionFactor: 2.0,
+            reverseOrder: true,
+          ),
+        ),
+      );
+
+      final widgets = tester.widgetList(find.byType(Text));
+      expect(widgets.length, equals(count));
+    });
   });
 }

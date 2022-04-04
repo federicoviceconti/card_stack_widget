@@ -5,6 +5,8 @@ import '../model/card_model.dart';
 import '../model/card_orientation.dart';
 import '../widget/card_widget.dart';
 
+typedef CardStackWidgetBuilder = CardModel Function(int index);
+
 /// This class has the aim to show a stack of cards based on [cardList].
 ///
 /// For example, we have three cards (A, B, C), and [reverseOrder] is set to
@@ -54,15 +56,35 @@ class CardStackWidget extends StatefulWidget {
   /// It's better to use with [opacityChangeOnDrag] set on `true`.
   final bool animateCardScale;
 
-  const CardStackWidget({
+  CardStackWidget.builder({
+    required int count,
+    required CardStackWidgetBuilder builder,
     Key? key,
-    required this.cardList,
-    this.alignment,
     double? positionFactor,
     double? scaleFactor,
-    this.reverseOrder = false,
     CardOrientation? cardDismissOrientation,
     CardOrientation? swipeOrientation,
+    this.alignment,
+    this.reverseOrder = false,
+    this.onCardTap,
+    this.opacityChangeOnDrag = false,
+    this.animateCardScale = false,
+  })  : scaleFactor = scaleFactor ?? scaleFactorDefault,
+        positionFactor = positionFactor ?? positionFactorDefault,
+        cardDismissOrientation = cardDismissOrientation ?? CardOrientation.both,
+        swipeOrientation = swipeOrientation ?? CardOrientation.both,
+        cardList = _getCardListFromBuilder(builder, count),
+        super(key: key);
+
+  const CardStackWidget({
+    required this.cardList,
+    Key? key,
+    double? positionFactor,
+    double? scaleFactor,
+    CardOrientation? cardDismissOrientation,
+    CardOrientation? swipeOrientation,
+    this.alignment,
+    this.reverseOrder = false,
     this.onCardTap,
     this.opacityChangeOnDrag = false,
     this.animateCardScale = false,
@@ -74,6 +96,19 @@ class CardStackWidget extends StatefulWidget {
 
   @override
   _CardStackWidgetState createState() => _CardStackWidgetState();
+
+  static List<CardModel> _getCardListFromBuilder(
+    CardStackWidgetBuilder builder,
+    int count,
+  ) {
+    final cardList = <CardModel>[];
+
+    for (int current = 0; current < count; current++) {
+      cardList.add(builder.call(current));
+    }
+
+    return cardList;
+  }
 }
 
 class _CardStackWidgetState extends State<CardStackWidget> {

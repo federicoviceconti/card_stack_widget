@@ -1,3 +1,7 @@
+## 0.1.0
+
+* Adding `CardStackWidget.builder` constructor
+
 ## 0.0.9
 
 * Adding `CardOrientation.none` on card_orientation.dart to disable the swipe on cards
