@@ -115,10 +115,18 @@ class _CardWidgetState extends State<CardWidget>
               onVerticalDragEnd: _handleVerticalEnd,
               onTap: () => widget.onCardTap?.call(widget.model),
               child: Container(
+                padding: widget.model.padding,
+                margin: widget.model.margin,
                 decoration: BoxDecoration(
+                  gradient: widget.model.gradient,
+                  image: widget.model.imageDecoration,
                   borderRadius: BorderRadius.all(widget.model.radius),
+                  border: widget.model.border,
                   boxShadow: [
-                    BoxShadow(blurRadius: 2, color: widget.model.shadowColor)
+                    BoxShadow(
+                      blurRadius: widget.model.shadowBlurRadius,
+                      color: widget.model.shadowColor,
+                    )
                   ],
                   color: widget.model.backgroundColor,
                 ),

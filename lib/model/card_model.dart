@@ -6,17 +6,35 @@ import 'package:flutter/material.dart';
 class CardModel {
   final Key? key;
 
-  /// Shadow applied to the card
+  /// Color of the shadow applied to the card decoration
   final Color shadowColor;
 
-  /// Color applied to the background of the card
+  /// Color applied to the background
   final Color backgroundColor;
 
-  /// Radius applied to the card
+  /// Radius applied to the border
   final Radius radius;
 
-  /// Widget inside the card
+  /// Border applied to the child's container decoration
+  final BoxBorder? border;
+
+  /// Widget rendered into the stack
   final Widget? child;
+
+  /// Padding applied to the child's container
+  final EdgeInsets? padding;
+
+  /// Margin applied to the child's container
+  final EdgeInsets? margin;
+
+  /// Gradient applied to the child's container decoration
+  final Gradient? gradient;
+
+  /// Image for decoration applied to the child's container
+  final DecorationImage? imageDecoration;
+
+  /// Radius applied to the shadow decoration
+  final double shadowBlurRadius;
 
   CardModel({
     this.key,
@@ -24,6 +42,12 @@ class CardModel {
     this.backgroundColor = Colors.white,
     this.shadowColor = Colors.black,
     this.radius = Radius.zero,
+    this.border,
+    this.padding,
+    this.margin,
+    this.gradient,
+    this.imageDecoration,
+    this.shadowBlurRadius = 2.0,
   });
 
   @override

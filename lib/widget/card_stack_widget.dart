@@ -8,45 +8,43 @@ import '../widget/card_widget.dart';
 typedef CardStackWidgetBuilder = CardModel Function(int index);
 
 /// This class has the aim to show a stack of cards based on [cardList].
-///
-/// For example, we have three cards (A, B, C), and [reverseOrder] is set to
-/// false. They will be shown like:
-///                _______
-///         ______|   C  |
-///  ______|   B  |      |
-/// |   A  |      |______|
-/// |      |______|
-/// |______|
+///      ______
+///     |  C  |
+///    _|_____|_        <- For example, we have three cards (A, B, C)
+///   |    B   |        <- and [reverseOrder] is set to false
+///  _|________|_
+/// |     A     |
+/// |___________|
 class CardStackWidget extends StatefulWidget {
-  /// Default value for [positionFactor]
+  /// Default value for [positionFactor].
   static const double positionFactorDefault = 1.0;
 
-  /// Default value for [scaleFactor]
+  /// Default value for [scaleFactor].
   static const double scaleFactorDefault = 1.0;
 
-  /// List of card shown
+  /// List of card shown.
   final List<CardModel> cardList;
 
-  /// Scale factor for items into the list
+  /// Scale factor for items into the list.
   final double scaleFactor;
 
-  /// Distance factor between items
+  /// Distance factor between items.
   final double positionFactor;
 
-  /// Cards alignment
+  /// Cards alignment. Default it's [Alignment.center].
   final Alignment? alignment;
 
   /// Should show list in reverse order. By default is `false`.
   final bool reverseOrder;
 
   /// Direction where the card could be dismissed and removed from the list
-  /// By default is [CardOrientation.both]
+  /// By default is [CardOrientation.both].
   final CardOrientation cardDismissOrientation;
 
-  /// Drag direction enabled. By default is [CardOrientation.both]
+  /// Drag direction enabled. By default is [CardOrientation.both].
   final CardOrientation swipeOrientation;
 
-  /// Change card opacity on drag (by default is disabled)
+  /// Change card opacity on drag (by default is disabled).
   final bool opacityChangeOnDrag;
 
   /// If not null, the function will be invoked on the tap of the card.
@@ -56,6 +54,9 @@ class CardStackWidget extends StatefulWidget {
   /// It's better to use with [opacityChangeOnDrag] set on `true`.
   final bool animateCardScale;
 
+  /// Create a stack of card with a specified length, via the [count] parameter.
+  ///
+  /// To render the item, is used the [builder] property.
   CardStackWidget.builder({
     required int count,
     required CardStackWidgetBuilder builder,
@@ -76,6 +77,8 @@ class CardStackWidget extends StatefulWidget {
         cardList = _getCardListFromBuilder(builder, count),
         super(key: key);
 
+  /// Create a stack of card using the [CardModel] properties inside the
+  /// [cardList] parameter.
   const CardStackWidget({
     required this.cardList,
     Key? key,
@@ -97,6 +100,9 @@ class CardStackWidget extends StatefulWidget {
   @override
   _CardStackWidgetState createState() => _CardStackWidgetState();
 
+  /// Used to create the [CardModel] at the specified index.
+  ///
+  /// Returns a list of CardModel, built via the [builder] function.
   static List<CardModel> _getCardListFromBuilder(
     CardStackWidgetBuilder builder,
     int count,
@@ -124,7 +130,7 @@ class _CardStackWidgetState extends State<CardStackWidget> {
     );
   }
 
-  /// Return a list of widget with type of [CardWidget]
+  /// Return a list of widget with type of [CardWidget].
   List<CardWidget> _buildCards() {
     final lengthCardList = widget.cardList.length;
 
@@ -180,7 +186,7 @@ class _CardStackWidgetState extends State<CardStackWidget> {
   }
 
   /// This is used to make a smooth animation between cards into the list,
-  /// when the [widget.animateCardScale] is set to `true`
+  /// when the [widget.animateCardScale] is set to `true`.
   void _makeAnimationValue(
       List<CardWidget> cards, int currentIndex, Offset delta) {
     for (int current = 0; current < cards.length; current++) {

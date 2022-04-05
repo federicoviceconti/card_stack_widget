@@ -1,3 +1,8 @@
+## 0.1.1
+
+* Adding properties to `CardModel`: `border`, `padding`, `margin`, `gradient`,`imageDecoration`,
+  `shadowBlurRadius`
+
 ## 0.1.0
 
 * Adding `CardStackWidget.builder` constructor

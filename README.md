@@ -75,10 +75,12 @@ _buildMockList(BuildContext context, {int size = 0}) {
 - swipeOrientation: CardOrientation (enum)
 - opacityChangeOnDrag: bool
 - animateCardScale: bool
+- onCardTap: Function(CardModel)
 
 **CardModel**:
-- key: Key
+- key: Key?
 - shadowColor: Color
 - backgroundColor: Color
 - radius: Radius
 - child: Widget
+- border: BoxBorder

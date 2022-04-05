@@ -32,7 +32,7 @@ class HomeWidget extends StatelessWidget {
   CardStackWidget _buildCardStackWidget(BuildContext context) {
     return CardStackWidget.builder(
       count: 4,
-      builder: (index) => _buildItemList(index, context),
+      builder: (index) => _buildItemCard(index, context),
       opacityChangeOnDrag: true,
       swipeOrientation: CardOrientation.both,
       cardDismissOrientation: CardOrientation.both,
@@ -95,7 +95,7 @@ class HomeWidget extends StatelessWidget {
     );
   }
 
-  _buildItemList(int index, BuildContext context) {
+  _buildItemCard(int index, BuildContext context) {
     final double containerWidth = MediaQuery.of(context).size.width - 16;
 
     var color =
