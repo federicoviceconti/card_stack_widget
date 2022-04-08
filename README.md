@@ -66,21 +66,25 @@ _buildMockList(BuildContext context, {int size = 0}) {
 ## 🚀 Supported properties
 
 **CardStackWidget**:
-- cardList: List of CardModel
-- cardDismissOrientation: CardOrientation (enum)
-- reverseOrder: bool
-- alignment: Alignment
+- cardList: List<CardModel>
 - scaleFactor: double
 - positionFactor: double
-- swipeOrientation: CardOrientation (enum)
-- opacityChangeOnDrag: bool
+- alignment: Alignment?
+- reverseOrder: bool
+- cardDismissOrientation: CardOrientation
+- swipeOrientation: CardOrientation
+- onCardTap: Function(CardModel)?
 - animateCardScale: bool
-- onCardTap: Function(CardModel)
+- opacityChangeOnDrag: bool
 
 **CardModel**:
 - key: Key?
-- shadowColor: Color
-- backgroundColor: Color
-- radius: Radius
-- child: Widget
-- border: BoxBorder
+- shadowColor: Color 
+- backgroundColor: Color 
+- radius: Radius 
+- border: BoxBorder?
+- child: Widget?
+- padding: EdgeInsets?
+- margin: EdgeInsets?
+- gradient: Gradient?
+- imageDecoration: DecorationImage?
