@@ -1,3 +1,7 @@
+## 0.1.3
+
+* Update pubspec example
+
 ## 0.1.2
 
 * Update dependencies
