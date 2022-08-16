@@ -1,3 +1,7 @@
+## 0.1.2
+
+* Update dependencies
+
 ## 0.1.1
 
 * Adding properties to `CardModel`: `border`, `padding`, `margin`, `gradient`,`imageDecoration`,

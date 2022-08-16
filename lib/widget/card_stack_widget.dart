@@ -120,10 +120,6 @@ class CardStackWidget extends StatefulWidget {
 class _CardStackWidgetState extends State<CardStackWidget> {
   @override
   Widget build(BuildContext context) {
-    return _buildCardStack();
-  }
-
-  Widget _buildCardStack() {
     return Stack(
       alignment: widget.alignment ?? Alignment.center,
       children: _buildCards(),
