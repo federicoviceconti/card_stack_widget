@@ -23,7 +23,7 @@ screenshots:
   - description: 'Example of card_stack_widget package.'
     path: example/screenshots/example.png
   - description: 'Example of card_stack_widget package with properties.'
-    path: example/screenshots/example.png
+    path: example/screenshots/example2.png
   - description: 'Example of opacityChangeOnDrag usage.'
     path: example/gif/change_example_1.gif
   - description: 'Example of cardDismissOrientation usage.'
