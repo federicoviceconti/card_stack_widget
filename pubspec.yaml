@@ -1,6 +1,6 @@
 name: card_stack_widget
 description: A vertical dismissible and customizable stack of cards for Flutter applications
-version: 0.1.3
+version: 0.1.4
 homepage: https://www.federicoviceconti.com
 repository: https://github.com/federicoviceconti/card_stack_widget
 
@@ -18,3 +18,13 @@ dev_dependencies:
   flutter_lints: ^1.0.0
 
 flutter:
+
+screenshots:
+  - description: 'Example of card_stack_widget package.'
+    path: example/screenshots/example.png
+  - description: 'Example of card_stack_widget package with properties.'
+    path: example/screenshots/example.png
+  - description: 'Example of opacityChangeOnDrag usage.'
+    path: example/gif/change_example_1.gif
+  - description: 'Example of cardDismissOrientation usage.'
+    path: example/gif/change_example_2.gif

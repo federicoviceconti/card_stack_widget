@@ -1,3 +1,7 @@
+## 0.1.4
+
+* Adding screenshots on pubspec.yaml
+
 ## 0.1.3
 
 * Update pubspec example
