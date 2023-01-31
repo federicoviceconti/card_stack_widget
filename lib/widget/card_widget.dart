@@ -66,8 +66,8 @@ class CardWidget extends StatefulWidget {
 
 class _CardWidgetState extends State<CardWidget>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<Offset> _animation;
+  late AnimationController _dragAnimationController;
+  late Animation<Offset> _dragAnimation;
   late double _draggingAnimationY;
   double _currentOpacity = 1.0;
 
@@ -75,14 +75,14 @@ class _CardWidgetState extends State<CardWidget>
   void initState() {
     _draggingAnimationY = widget.positionTop;
 
-    _animationController = AnimationController(
+    _dragAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 0),
     );
-    _animation = Tween(
+    _dragAnimation = Tween(
       begin: Offset(0, widget.positionTop),
       end: Offset(0, widget.positionTop),
-    ).animate(_animationController);
+    ).animate(_dragAnimationController);
 
     super.initState();
   }
@@ -94,7 +94,7 @@ class _CardWidgetState extends State<CardWidget>
       builder: (_, top, child) {
         return Positioned(
           key: widget.model.key,
-          top: widget.positionTop + _animation.value.dy + top,
+          top: widget.positionTop + _dragAnimation.value.dy + top,
           child: child ?? const IgnorePointer(),
         );
       },
@@ -146,37 +146,37 @@ class _CardWidgetState extends State<CardWidget>
       setState(() {
         _currentOpacity = _calculateOpacity();
 
-        _draggingAnimationY = _animation.value.dy;
+        _draggingAnimationY = _dragAnimation.value.dy;
 
-        _animation = Tween(
-            begin: Offset(0, _animation.value.dy),
+        _dragAnimation = Tween(
+            begin: Offset(0, _dragAnimation.value.dy),
             end: Offset(
               0,
-              _animation.value.dy + details.delta.dy,
-            )).animate(_animationController);
+              _dragAnimation.value.dy + details.delta.dy,
+            )).animate(_dragAnimationController);
       });
 
       widget.onCardUpdate?.call(details.delta);
 
-      _animationController.forward();
+      _dragAnimationController.forward();
     }
   }
 
   /// Handle the drag at the end
   void _handleVerticalEnd(DragEndDetails details) {
-    var endAnimationY = _animation.value.dy;
+    var endAnimationY = _dragAnimation.value.dy;
 
     if (endAnimationY != widget.positionTop) {
       setState(() {
         _currentOpacity = 1.0;
 
-        _animation = Tween(
-            begin: Offset(0, _animation.value.dy),
+        _dragAnimation = Tween(
+            begin: Offset(0, _dragAnimation.value.dy),
             end: Offset(
               0,
               widget.positionTop,
             )).animate(CurvedAnimation(
-          parent: _animationController,
+          parent: _dragAnimationController,
           curve: Curves.easeIn,
         ));
 
@@ -260,7 +260,7 @@ class _CardWidgetState extends State<CardWidget>
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _dragAnimationController.dispose();
     super.dispose();
   }
 }
