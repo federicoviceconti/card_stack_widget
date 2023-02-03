@@ -54,6 +54,10 @@ class CardStackWidget extends StatefulWidget {
   /// It's better to use with [opacityChangeOnDrag] set on `true`.
   final bool animateCardScale;
 
+  /// The appear duration time for the back card on the stack,
+  /// when the card on the top is dismissed
+  final Duration? dismissedCardDuration;
+
   /// Create a stack of card with a specified length, via the [count] parameter.
   ///
   /// To render the item, is used the [builder] property.
@@ -70,6 +74,7 @@ class CardStackWidget extends StatefulWidget {
     this.onCardTap,
     this.opacityChangeOnDrag = false,
     this.animateCardScale = false,
+    this.dismissedCardDuration,
   })  : scaleFactor = scaleFactor ?? scaleFactorDefault,
         positionFactor = positionFactor ?? positionFactorDefault,
         cardDismissOrientation = cardDismissOrientation ?? CardOrientation.both,
@@ -91,6 +96,7 @@ class CardStackWidget extends StatefulWidget {
     this.onCardTap,
     this.opacityChangeOnDrag = false,
     this.animateCardScale = false,
+    this.dismissedCardDuration,
   })  : scaleFactor = scaleFactor ?? scaleFactorDefault,
         positionFactor = positionFactor ?? positionFactorDefault,
         cardDismissOrientation = cardDismissOrientation ?? CardOrientation.both,
@@ -117,7 +123,10 @@ class CardStackWidget extends StatefulWidget {
   }
 }
 
-class _CardStackWidgetState extends State<CardStackWidget> {
+class _CardStackWidgetState extends State<CardStackWidget>
+    with TickerProviderStateMixin {
+  final listenableStartingAnimation = ValueNotifier<double>(0);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -155,6 +164,8 @@ class _CardStackWidgetState extends State<CardStackWidget> {
       final listenableScale = ValueNotifier<double>(0);
 
       final card = CardWidget(
+        listenableDismissedAnimation:
+            currentIndex == 0 ? listenableStartingAnimation : null,
         listenablePositionTop: listenableTop,
         listenableScale: listenableScale,
         opacityChangeOnDrag: widget.opacityChangeOnDrag,
@@ -165,9 +176,7 @@ class _CardStackWidgetState extends State<CardStackWidget> {
         model: model,
         draggable: draggable,
         onCardTap: widget.onCardTap,
-        onCardDragEnd: (orientation) {
-          _updateCardListOnAnimationEnd(orientation);
-        },
+        onCardDragEnd: _updateCardListOnAnimationEnd,
         onCardUpdate: (delta) {
           if (widget.animateCardScale) {
             _makeAnimationValue(cards, currentIndex, delta);
@@ -225,5 +234,35 @@ class _CardStackWidgetState extends State<CardStackWidget> {
     setState(() {
       widget.cardList.insert(firstElementIndex, model);
     });
+
+    if(widget.dismissedCardDuration != null) {
+      _makeAnimationOnLastCard();
+    }
+  }
+  
+  /// Create an animation for the back card on the stack
+  /// when this is dismissed
+  void _makeAnimationOnLastCard() {
+    final controller = AnimationController(
+      vsync: this,
+      duration: widget.dismissedCardDuration ?? Duration.zero,
+    );
+
+    final animation = Tween<double>(
+      begin: 20.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(
+      parent: controller,
+      curve: Curves.easeOut,
+    ));
+    animation.addListener(() {
+      listenableStartingAnimation.value = animation.value;
+    });
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.dispose();
+      }
+    });
+    controller.forward();
   }
 }

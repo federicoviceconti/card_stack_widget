@@ -22,7 +22,8 @@ CardStackWidget _buildCardStackWidget(BuildContext context) {
     scaleFactor: 1.5,
     alignment: Alignment.center,
     reverseOrder: true,
-    animateCardScale: true,
+    animateCardScale: const Duration(milliseconds: 150),
+    dismissedCardDuration: true,
     cardList: mockList,
   );
 }
@@ -74,7 +75,8 @@ _buildMockList(BuildContext context, {int size = 0}) {
 - cardDismissOrientation: CardOrientation
 - swipeOrientation: CardOrientation
 - onCardTap: Function(CardModel)?
-- animateCardScale: bool
+- animateCardScale: Duration
+- dismissedCardDuration: bool
 - opacityChangeOnDrag: bool
 
 **CardModel**:

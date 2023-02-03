@@ -19,6 +19,8 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
 
   double _scaleFactorValue = 1;
 
+  int _dismissedValue = 150;
+
   Radius _radius = const Radius.circular(16.0);
 
   final _radiusController = TextEditingController();
@@ -26,6 +28,8 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
   final _positionFactorController = TextEditingController();
 
   final _scaleFactorController = TextEditingController();
+
+  final _dismissController = TextEditingController();
 
   CardOrientation? _cardDismissOrientationValue;
 
@@ -38,6 +42,7 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
     _positionFactorController.text = _positionFactorValue.toString();
     _scaleFactorController.text = _scaleFactorValue.toString();
     _radiusController.text = _radius.x.toString();
+    _dismissController.text = _dismissedValue.toString();
   }
 
   @override
@@ -52,6 +57,20 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
           padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
           child: Column(
             children: [
+              TextField(
+                keyboardType: TextInputType.number,
+                controller: _dismissController,
+                onChanged: (value) {
+                  final convertedValue = double.tryParse(value);
+                  if (convertedValue != null) {
+                    setState(() {
+                      _dismissedValue = convertedValue.toInt();
+                    });
+                  }
+                },
+                decoration: const InputDecoration(labelText: 'Duration dismissed in ms'),
+              ),
+              const SizedBox(height: 16),
               TextField(
                 keyboardType: TextInputType.number,
                 controller: _radiusController,
@@ -200,8 +219,10 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
     return CardStackWidget(
       opacityChangeOnDrag: _opacityChangeOnDrag,
       animateCardScale: _cardScaleAnimation,
+      dismissedCardDuration: Duration(milliseconds: _dismissedValue),
       positionFactor: double.tryParse(_positionFactorController.text),
       scaleFactor: double.tryParse(_scaleFactorController.text),
+      onCardTap: (model) => debugPrint('on card tap -> $model'),
       cardList: _buildMockListCard(),
       alignment: Alignment.center,
       reverseOrder: _reverseOrder,

@@ -44,11 +44,16 @@ class CardWidget extends StatefulWidget {
   /// Function called when this card is moved.
   final Function(Offset)? onCardUpdate;
 
+  /// Used for animate the back card dismissed when it was on the top
+  /// of the stack.
+  final ValueNotifier<double>? listenableDismissedAnimation;
+
   const CardWidget({
     Key? key,
     required this.listenableScale,
     required this.listenablePositionTop,
     required this.positionTop,
+    this.listenableDismissedAnimation,
     required this.model,
     required this.draggable,
     this.onCardTap,
@@ -64,8 +69,7 @@ class CardWidget extends StatefulWidget {
   _CardWidgetState createState() => _CardWidgetState();
 }
 
-class _CardWidgetState extends State<CardWidget>
-    with SingleTickerProviderStateMixin {
+class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
   late AnimationController _dragAnimationController;
   late Animation<Offset> _dragAnimation;
   late double _draggingAnimationY;
@@ -89,53 +93,28 @@ class _CardWidgetState extends State<CardWidget>
 
   @override
   Widget build(BuildContext context) {
+    final animListenable =
+        widget.listenableDismissedAnimation ?? ValueNotifier<double>(0.0);
+
+    final scale = widget.scale ?? 1.0;
+
     return ValueListenableBuilder<double>(
-      valueListenable: widget.listenablePositionTop,
-      builder: (_, top, child) {
-        return Positioned(
-          key: widget.model.key,
-          top: widget.positionTop + _dragAnimation.value.dy + top,
-          child: child ?? const IgnorePointer(),
+      valueListenable: animListenable,
+      builder: (_, startingAnim, __) {
+        return CardBodyWidget(
+          model: widget.model,
+          dragAnimationValueY: _draggingAnimationY,
+          dismissedAnimationValue: startingAnim,
+          currentOpacity: _currentOpacity,
+          handleVerticalEnd: _handleVerticalEnd,
+          handleVerticalUpdate: _handleVerticalUpdate,
+          listenablePositionTop: widget.listenablePositionTop,
+          listenableScale: widget.listenableScale,
+          onCardTap: widget.onCardTap,
+          positionTop: widget.positionTop,
+          scale: scale,
         );
       },
-      child: Opacity(
-        opacity: _currentOpacity,
-        child: ValueListenableBuilder<double>(
-          valueListenable: widget.listenableScale,
-          builder: (_, scale, child) {
-            return Transform.scale(
-              scale: widget.scale! + scale,
-              child: child ?? const IgnorePointer(),
-            );
-          },
-          child: Transform.scale(
-            scale: widget.scale!,
-            child: GestureDetector(
-              onVerticalDragUpdate: _handleVerticalUpdate,
-              onVerticalDragEnd: _handleVerticalEnd,
-              onTap: () => widget.onCardTap?.call(widget.model),
-              child: Container(
-                padding: widget.model.padding,
-                margin: widget.model.margin,
-                decoration: BoxDecoration(
-                  gradient: widget.model.gradient,
-                  image: widget.model.imageDecoration,
-                  borderRadius: BorderRadius.all(widget.model.radius),
-                  border: widget.model.border,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: widget.model.shadowBlurRadius,
-                      color: widget.model.shadowColor,
-                    )
-                  ],
-                  color: widget.model.backgroundColor,
-                ),
-                child: widget.model.child,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -262,5 +241,139 @@ class _CardWidgetState extends State<CardWidget>
   void dispose() {
     _dragAnimationController.dispose();
     super.dispose();
+  }
+}
+
+class CardBodyWidget extends StatelessWidget {
+  /// Value for dismissed animation
+  final double? dismissedAnimationValue;
+
+  /// Value for dragging animation
+  final double dragAnimationValueY;
+
+  /// Initial position of the card
+  final double positionTop;
+
+  /// Opacity for the current card
+  final double currentOpacity;
+
+  /// Scale for the current card
+  final double scale;
+
+  /// The card model
+  final CardModel model;
+
+  /// Notifier for the animation for the card not
+  /// dragged
+  final ValueNotifier<double> listenablePositionTop;
+
+  /// Notifier for the animation for the scaling
+  final ValueNotifier<double> listenableScale;
+
+  /// Invoked when the card is dragged
+  final Function(DragUpdateDetails) handleVerticalUpdate;
+
+  /// Invoked when the card drag is ended
+  final Function(DragEndDetails) handleVerticalEnd;
+
+  /// Invoked when the card is tapped
+  final Function(CardModel)? onCardTap;
+
+  const CardBodyWidget({
+    Key? key,
+    required this.model,
+    required this.listenablePositionTop,
+    required this.listenableScale,
+    required this.positionTop,
+    required this.currentOpacity,
+    required this.dragAnimationValueY,
+    required this.scale,
+    this.dismissedAnimationValue,
+    required this.handleVerticalEnd,
+    required this.handleVerticalUpdate,
+    required this.onCardTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var animationValue = dismissedAnimationValue ?? 0.0;
+
+    return ValueListenableBuilder<double>(
+      valueListenable: listenablePositionTop,
+      builder: (_, top, child) {
+        return Positioned(
+          key: model.key,
+          top: positionTop + dragAnimationValueY + top + animationValue,
+          child: child ?? const IgnorePointer(),
+        );
+      },
+      child: Opacity(
+        opacity: currentOpacity,
+        child: ValueListenableBuilder<double>(
+          valueListenable: listenableScale,
+          builder: (_, animScale, child) {
+            return Transform.scale(
+              scale: scale + animScale,
+              child: child ?? const IgnorePointer(),
+            );
+          },
+          child: CardChildWidget(
+            handleVerticalEnd: handleVerticalEnd,
+            handleVerticalUpdate: handleVerticalUpdate,
+            model: model,
+            onCardTap: onCardTap,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardChildWidget extends StatelessWidget {
+  /// The card model
+  final CardModel model;
+
+  /// Function invoked when the card is moved
+  final Function(DragUpdateDetails) handleVerticalUpdate;
+
+  /// Function invoked when the card movement is finished
+  final Function(DragEndDetails) handleVerticalEnd;
+
+  /// Function invoked when is made a tap on the card
+  final Function(CardModel)? onCardTap;
+
+  const CardChildWidget({
+    Key? key,
+    required this.model,
+    required this.handleVerticalUpdate,
+    required this.handleVerticalEnd,
+    required this.onCardTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onVerticalDragUpdate: handleVerticalUpdate,
+      onVerticalDragEnd: handleVerticalEnd,
+      onTap: () => onCardTap?.call(model),
+      child: Container(
+        padding: model.padding,
+        margin: model.margin,
+        decoration: BoxDecoration(
+          gradient: model.gradient,
+          image: model.imageDecoration,
+          borderRadius: BorderRadius.all(model.radius),
+          border: model.border,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: model.shadowBlurRadius,
+              color: model.shadowColor,
+            )
+          ],
+          color: model.backgroundColor,
+        ),
+        child: model.child,
+      ),
+    );
   }
 }
