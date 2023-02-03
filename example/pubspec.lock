@@ -21,10 +21,10 @@ packages:
     dependency: "direct main"
     description:
       name: card_stack_widget
-      sha256: cd7cf3dbc030bd12cf6096830dbe6a225f1f6ad00a86171b87806e05f6abb175
+      sha256: "0fe2a0ec75b6e68084fb25bb186ccdd32a1bb1e23f5ce1d877fac3433c674a13"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.4"
+    version: "0.1.5"
   characters:
     dependency: transitive
     description:
