@@ -22,8 +22,8 @@ CardStackWidget _buildCardStackWidget(BuildContext context) {
     scaleFactor: 1.5,
     alignment: Alignment.center,
     reverseOrder: true,
-    animateCardScale: const Duration(milliseconds: 150),
-    dismissedCardDuration: true,
+    animateCardScale: true,
+    dismissedCardDuration: const Duration(milliseconds: 150),
     cardList: mockList,
   );
 }
