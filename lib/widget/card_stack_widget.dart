@@ -235,11 +235,11 @@ class _CardStackWidgetState extends State<CardStackWidget>
       widget.cardList.insert(firstElementIndex, model);
     });
 
-    if(widget.dismissedCardDuration != null) {
+    if (widget.dismissedCardDuration != null) {
       _makeAnimationOnLastCard();
     }
   }
-  
+
   /// Create an animation for the back card on the stack
   /// when this is dismissed
   void _makeAnimationOnLastCard() {

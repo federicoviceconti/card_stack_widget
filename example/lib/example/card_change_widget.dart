@@ -68,7 +68,9 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                     });
                   }
                 },
-                decoration: const InputDecoration(labelText: 'Duration dismissed in ms'),
+                decoration: const InputDecoration(
+                  labelText: 'Duration dismissed in ms',
+                ),
               ),
               const SizedBox(height: 16),
               TextField(
