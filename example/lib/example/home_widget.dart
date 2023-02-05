@@ -40,6 +40,7 @@ class HomeWidget extends StatelessWidget {
       scaleFactor: 1.5,
       alignment: Alignment.center,
       reverseOrder: true,
+      dismissedCardDuration: const Duration(milliseconds: 300),
     );
   }
 

@@ -19,35 +19,56 @@ class _ExampleWidgetState extends State<ExampleWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                child: const Text('CardStackWidget example'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CardChangeWidget(),
-                    ),
-                  );
-                },
+            children: const [
+              Spacer(),
+              Spacer(),
+              ButtonRouteWidget(
+                name: 'CardStackWidget example',
+                widget: CardChangeWidget(),
               ),
-              const SizedBox(height: 92),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                child: const Text('Real page example'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomeWidget(),
-                    ),
-                  );
-                },
+              Spacer(),
+              ButtonRouteWidget(
+                name: 'Real page example',
+                widget: HomeWidget(),
               ),
+              Spacer(),
+              Spacer(),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ButtonRouteWidget extends StatelessWidget {
+  final String name;
+
+  final Widget widget;
+
+  const ButtonRouteWidget({
+    Key? key,
+    required this.name,
+    required this.widget,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FractionallySizedBox(
+      widthFactor: 0.5,
+      child: ElevatedButton(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Text(name),
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => widget,
+            ),
+          );
+        },
       ),
     );
   }
