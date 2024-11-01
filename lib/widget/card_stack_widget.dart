@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import '../model/card_model.dart';
 import '../model/card_orientation.dart';
-import '../widget/card_widget.dart';
+import 'card_widget.dart';
 
 typedef CardStackWidgetBuilder = CardModel Function(int index);
 
@@ -36,6 +36,27 @@ class CardStackWidget extends StatefulWidget {
 
   /// Should show list in reverse order. By default is `false`.
   final bool reverseOrder;
+
+  /// default reverseSize: false
+  ///      ______
+  ///     |  C  |
+  ///    _|_____|_
+  ///   |    B   |
+  ///  _|________|_
+  /// |     A     |
+  /// |___________|
+  ///
+  ///
+  /// reverseSize: true
+  ///  ____________
+  /// |     A     |
+  /// |___________|
+  ///  |    B   |        <- and [reverseSize] is set to true
+  /// _|________|_
+  ///   |  C  |
+  ///   |_____|
+  ///
+  final bool reverseSize;
 
   /// Direction where the card could be dismissed and removed from the list
   /// By default is [CardOrientation.both].
@@ -71,6 +92,7 @@ class CardStackWidget extends StatefulWidget {
     CardOrientation? swipeOrientation,
     this.alignment,
     this.reverseOrder = false,
+    this.reverseSize = false,
     this.onCardTap,
     this.opacityChangeOnDrag = false,
     this.animateCardScale = false,
@@ -93,6 +115,7 @@ class CardStackWidget extends StatefulWidget {
     CardOrientation? swipeOrientation,
     this.alignment,
     this.reverseOrder = false,
+    this.reverseSize = false,
     this.onCardTap,
     this.opacityChangeOnDrag = false,
     this.animateCardScale = false,
@@ -110,9 +133,9 @@ class CardStackWidget extends StatefulWidget {
   ///
   /// Returns a list of CardModel, built via the [builder] function.
   static List<CardModel> _getCardListFromBuilder(
-    CardStackWidgetBuilder builder,
-    int count,
-  ) {
+      CardStackWidgetBuilder builder,
+      int count,
+      ) {
     final cardList = <CardModel>[];
 
     for (int current = 0; current < count; current++) {
@@ -146,7 +169,7 @@ class _CardStackWidgetState extends State<CardStackWidget>
     final cards = <CardWidget>[];
 
     for (int currentIndex = 0; currentIndex < lengthCardList; currentIndex++) {
-      final positionCalc = widget.positionFactor * currentIndex * 10;
+      final positionCalc = widget.reverseSize ? widget.positionFactor * (lengthCardList - currentIndex - 1) * 10 : widget.positionFactor * currentIndex * 10;
 
       final scalePercentage = lengthCardList * widget.scaleFactor / 100;
 
@@ -165,7 +188,7 @@ class _CardStackWidgetState extends State<CardStackWidget>
 
       final card = CardWidget(
         listenableDismissedAnimation:
-            currentIndex == 0 ? listenableStartingAnimation : null,
+        currentIndex == 0 ? listenableStartingAnimation : null,
         listenablePositionTop: listenableTop,
         listenableScale: listenableScale,
         opacityChangeOnDrag: widget.opacityChangeOnDrag,
@@ -206,7 +229,7 @@ class _CardStackWidgetState extends State<CardStackWidget>
         if (delta.dy > 0 &&
             current < cards.length &&
             cards[current].positionTop +
-                    cards[current].listenablePositionTop.value <
+                cards[current].listenablePositionTop.value <
                 cards[current + 1].positionTop) {
           cards[current].listenablePositionTop.value += delta.dy / 2;
         }
@@ -220,14 +243,14 @@ class _CardStackWidgetState extends State<CardStackWidget>
     final lastElementIndex = !widget.reverseOrder
         ? (orientation == CardOrientation.down ? widget.cardList.length - 1 : 0)
         : (orientation == CardOrientation.down
-            ? 0
-            : widget.cardList.length - 1);
+        ? 0
+        : widget.cardList.length - 1);
 
     final firstElementIndex = !widget.reverseOrder
         ? (orientation == CardOrientation.down ? 0 : widget.cardList.length - 1)
         : (orientation == CardOrientation.down
-            ? widget.cardList.length - 1
-            : 0);
+        ? widget.cardList.length - 1
+        : 0);
 
     final model = widget.cardList.removeAt(lastElementIndex);
 
@@ -249,7 +272,7 @@ class _CardStackWidgetState extends State<CardStackWidget>
     );
 
     final animation = Tween<double>(
-      begin: 20.0,
+      begin: widget.reverseSize ? -20.0 : 20.0,
       end: 0.0,
     ).animate(CurvedAnimation(
       parent: controller,

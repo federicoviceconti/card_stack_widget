@@ -1,5 +1,7 @@
 import 'package:example/example/card_change_widget.dart';
+import 'package:example/example/card_change_widget_new.dart';
 import 'package:example/example/home_widget.dart';
+import 'package:example/example/home_widget_new.dart';
 import 'package:flutter/material.dart';
 
 class ExampleWidget extends StatefulWidget {
@@ -28,12 +30,21 @@ class _ExampleWidgetState extends State<ExampleWidget> {
               ),
               Spacer(),
               ButtonRouteWidget(
+                name: 'CardStackWidget with reverseSize example',
+                widget: CardChangeWidgetNew(),
+              ),
+              Spacer(),
+              ButtonRouteWidget(
                 name: 'Real page example',
                 widget: HomeWidget(),
               ),
               Spacer(),
+              ButtonRouteWidget(
+                name: 'Real page with reverseSize example',
+                widget: HomeWidgetNew(),
+              ),
               Spacer(),
-            ],
+            ]
           ),
         ),
       ),
