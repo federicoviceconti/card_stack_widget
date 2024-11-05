@@ -1,3 +1,7 @@
+# 0.1.6
+
+* Bumped the minimum required Dart SDK version
+
 ## 0.1.5
 
 * Add the `dismissedCardDuration` property

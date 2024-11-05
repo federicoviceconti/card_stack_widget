@@ -1,33 +1,33 @@
-import 'package:example/example/card_change_widget.dart';
-import 'package:example/example/home_widget.dart';
+import 'package:example/src/card_change_widget.dart';
+import 'package:example/src/home_widget.dart';
 import 'package:flutter/material.dart';
 
 class ExampleWidget extends StatefulWidget {
-  const ExampleWidget({Key? key}) : super(key: key);
+  const ExampleWidget({super.key});
 
   @override
-  _ExampleWidgetState createState() => _ExampleWidgetState();
+  ExampleWidgetState createState() => ExampleWidgetState();
 }
 
-class _ExampleWidgetState extends State<ExampleWidget> {
+class ExampleWidgetState extends State<ExampleWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Spacer(),
               Spacer(),
-              ButtonRouteWidget(
+              _ButtonRouteWidget(
                 name: 'CardStackWidget example',
                 widget: CardChangeWidget(),
               ),
               Spacer(),
-              ButtonRouteWidget(
+              _ButtonRouteWidget(
                 name: 'Real page example',
                 widget: HomeWidget(),
               ),
@@ -41,16 +41,15 @@ class _ExampleWidgetState extends State<ExampleWidget> {
   }
 }
 
-class ButtonRouteWidget extends StatelessWidget {
+class _ButtonRouteWidget extends StatelessWidget {
   final String name;
 
   final Widget widget;
 
-  const ButtonRouteWidget({
-    Key? key,
+  const _ButtonRouteWidget({
     required this.name,
     required this.widget,
-  }) : super(key: key);
+  }) : super();
 
   @override
   Widget build(BuildContext context) {

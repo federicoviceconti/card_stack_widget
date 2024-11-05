@@ -64,7 +64,7 @@ class CardStackWidget extends StatefulWidget {
   CardStackWidget.builder({
     required int count,
     required CardStackWidgetBuilder builder,
-    Key? key,
+    super.key,
     double? positionFactor,
     double? scaleFactor,
     CardOrientation? cardDismissOrientation,
@@ -79,14 +79,13 @@ class CardStackWidget extends StatefulWidget {
         positionFactor = positionFactor ?? positionFactorDefault,
         cardDismissOrientation = cardDismissOrientation ?? CardOrientation.both,
         swipeOrientation = swipeOrientation ?? CardOrientation.both,
-        cardList = _getCardListFromBuilder(builder, count),
-        super(key: key);
+        cardList = _getCardListFromBuilder(builder, count);
 
   /// Create a stack of card using the [CardModel] properties inside the
   /// [cardList] parameter.
   const CardStackWidget({
     required this.cardList,
-    Key? key,
+    super.key,
     double? positionFactor,
     double? scaleFactor,
     CardOrientation? cardDismissOrientation,
@@ -100,11 +99,10 @@ class CardStackWidget extends StatefulWidget {
   })  : scaleFactor = scaleFactor ?? scaleFactorDefault,
         positionFactor = positionFactor ?? positionFactorDefault,
         cardDismissOrientation = cardDismissOrientation ?? CardOrientation.both,
-        swipeOrientation = swipeOrientation ?? CardOrientation.both,
-        super(key: key);
+        swipeOrientation = swipeOrientation ?? CardOrientation.both;
 
   @override
-  _CardStackWidgetState createState() => _CardStackWidgetState();
+  CardStackWidgetState createState() => CardStackWidgetState();
 
   /// Used to create the [CardModel] at the specified index.
   ///
@@ -123,7 +121,7 @@ class CardStackWidget extends StatefulWidget {
   }
 }
 
-class _CardStackWidgetState extends State<CardStackWidget>
+class CardStackWidgetState extends State<CardStackWidget>
     with TickerProviderStateMixin {
   final listenableStartingAnimation = ValueNotifier<double>(0);
 

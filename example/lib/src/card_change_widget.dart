@@ -2,13 +2,13 @@ import 'package:card_stack_widget/card_stack_widget.dart';
 import 'package:flutter/material.dart';
 
 class CardChangeWidget extends StatefulWidget {
-  const CardChangeWidget({Key? key}) : super(key: key);
+  const CardChangeWidget({super.key});
 
   @override
-  _CardChangeWidgetState createState() => _CardChangeWidgetState();
+  CardChangeWidgetState createState() => CardChangeWidgetState();
 }
 
-class _CardChangeWidgetState extends State<CardChangeWidget> {
+class CardChangeWidgetState extends State<CardChangeWidget> {
   bool _cardScaleAnimation = false;
 
   bool _opacityChangeOnDrag = false;
@@ -160,10 +160,10 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                     items: CardOrientation.values
                         .map(
                           (e) => DropdownMenuItem<CardOrientation>(
+                            value: e,
                             child: Text(
                               e.toString(),
                             ),
-                            value: e,
                           ),
                         )
                         .toList(),
@@ -189,10 +189,10 @@ class _CardChangeWidgetState extends State<CardChangeWidget> {
                     items: CardOrientation.values
                         .map(
                           (e) => DropdownMenuItem<CardOrientation>(
+                            value: e,
                             child: Text(
                               e.toString(),
                             ),
-                            value: e,
                           ),
                         )
                         .toList(),

@@ -49,7 +49,7 @@ class CardWidget extends StatefulWidget {
   final ValueNotifier<double>? listenableDismissedAnimation;
 
   const CardWidget({
-    Key? key,
+    super.key,
     required this.listenableScale,
     required this.listenablePositionTop,
     required this.positionTop,
@@ -63,13 +63,13 @@ class CardWidget extends StatefulWidget {
     this.dismissOrientation = CardOrientation.both,
     this.swipeOrientation = CardOrientation.both,
     this.opacityChangeOnDrag = false,
-  }) : super(key: key);
+  });
 
   @override
-  _CardWidgetState createState() => _CardWidgetState();
+  CardWidgetState createState() => CardWidgetState();
 }
 
-class _CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
+class CardWidgetState extends State<CardWidget> with TickerProviderStateMixin {
   late AnimationController _dragAnimationController;
   late Animation<Offset> _dragAnimation;
   late double _draggingAnimationY;
@@ -280,7 +280,7 @@ class CardBodyWidget extends StatelessWidget {
   final Function(CardModel)? onCardTap;
 
   const CardBodyWidget({
-    Key? key,
+    super.key,
     required this.model,
     required this.listenablePositionTop,
     required this.listenableScale,
@@ -292,7 +292,7 @@ class CardBodyWidget extends StatelessWidget {
     required this.handleVerticalEnd,
     required this.handleVerticalUpdate,
     required this.onCardTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -343,12 +343,12 @@ class CardChildWidget extends StatelessWidget {
   final Function(CardModel)? onCardTap;
 
   const CardChildWidget({
-    Key? key,
+    super.key,
     required this.model,
     required this.handleVerticalUpdate,
     required this.handleVerticalEnd,
     required this.onCardTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

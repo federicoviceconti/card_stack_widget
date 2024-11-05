@@ -4,7 +4,7 @@ import 'package:card_stack_widget/card_stack_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeWidget extends StatelessWidget {
-  const HomeWidget({Key? key}) : super(key: key);
+  const HomeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +47,11 @@ class HomeWidget extends StatelessWidget {
   Row _buildFromTo() {
     return Row(
       children: <Widget>[
-        Flexible(
+        const Flexible(
           flex: 2,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const <Widget>[
+            children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(left: 16.0),
                 child: Icon(Icons.trip_origin),
@@ -118,17 +118,17 @@ class HomeWidget extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            Row(
+            const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Flexible(
                   flex: 1,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "From",
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -143,10 +143,10 @@ class HomeWidget extends StatelessWidget {
                 Flexible(
                   flex: 1,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "To",
                           style: TextStyle(fontWeight: FontWeight.bold),
